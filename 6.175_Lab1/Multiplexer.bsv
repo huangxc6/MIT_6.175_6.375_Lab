@@ -39,7 +39,7 @@ function Bit#(N) multiplexerN(Bit#(1) sel, Bit#(N) a, Bit#(N) b);
     Bit#(N) result;
     for (Integer i = 0; i < valueOf(N); i = i + 1)
         result[i] = multiplexer1(sel, a[i], b[i]);
-        return result;
+    return result;
 endfunction
 
 function Bit#(5) multiplexer5(Bit#(1) sel, Bit#(5) a, Bit#(5) b);
