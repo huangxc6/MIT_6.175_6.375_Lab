@@ -21,13 +21,23 @@ function Bit#(1) multiplexer1(Bit#(1) sel, Bit#(1) a, Bit#(1) b);
     return or1(and1(not1(sel), a), and1(sel, b));
 endfunction
 
+// Exercise 2 (1 Point): Complete the implementation of the function multiplexer5 
+// using for loops and multiplexer1.
 function Bit#(5) multiplexer5(Bit#(1) sel, Bit#(5) a, Bit#(5) b);
-    return (sel == 0)? a : b;
+    // return (sel == 0)? a : b;
+    Bit#(5) result;
+    for (Integer i = 0; i < 5; i = i + 1)
+        result[i] = multiplexer1(sel, a[i], b[i]);
+    return result;
 endfunction
 
 typedef 5 N;
 function Bit#(N) multiplexerN(Bit#(1) sel, Bit#(N) a, Bit#(N) b);
-    return (sel == 0)? a : b;
+    // return (sel == 0)? a : b;
+    Bit#(N) result;
+    for (Integer i = 0; i < N; i = i + 1)
+        result[i] = multiplexer1(sel, a[i], b[i]);
+        return result;
 endfunction
 
 //typedef 32 N; // Not needed
