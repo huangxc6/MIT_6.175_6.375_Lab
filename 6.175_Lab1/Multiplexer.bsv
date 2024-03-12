@@ -15,7 +15,7 @@ function Bit#(1) not1(Bit#(1) a);
 endfunction
 
 // Exercise 1 (4 Points): Using the and, or, and not gates, re-implement the function multiplexer1
-// How many gates are needed? anser: 3 
+// How many gates are needed? anser: 4 
 function Bit#(1) multiplexer1(Bit#(1) sel, Bit#(1) a, Bit#(1) b);
     // return (sel == 0)? a : b;
     return or1(and1(not1(sel), a), and1(sel, b));
