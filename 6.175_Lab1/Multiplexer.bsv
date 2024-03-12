@@ -23,21 +23,27 @@ endfunction
 
 // Exercise 2 (1 Point): Complete the implementation of the function multiplexer5 
 // using for loops and multiplexer1.
-function Bit#(5) multiplexer5(Bit#(1) sel, Bit#(5) a, Bit#(5) b);
-    // return (sel == 0)? a : b;
-    Bit#(5) result;
-    for (Integer i = 0; i < 5; i = i + 1)
-        result[i] = multiplexer1(sel, a[i], b[i]);
-    return result;
-endfunction
+// function Bit#(5) multiplexer5(Bit#(1) sel, Bit#(5) a, Bit#(5) b);
+//     // return (sel == 0)? a : b;
+//     Bit#(5) result;
+//     for (Integer i = 0; i < 5; i = i + 1)
+//         result[i] = multiplexer1(sel, a[i], b[i]);
+//     return result;
+// endfunction
 
+
+// Exercise 3 (2 Points): Complete the definition of the function multiplexer_n. 
 typedef 5 N;
 function Bit#(N) multiplexerN(Bit#(1) sel, Bit#(N) a, Bit#(N) b);
     // return (sel == 0)? a : b;
     Bit#(N) result;
-    for (Integer i = 0; i < N; i = i + 1)
+    for (Integer i = 0; i < valueOf(N); i = i + 1)
         result[i] = multiplexer1(sel, a[i], b[i]);
         return result;
+endfunction
+
+function Bit#(5) multiplexer5(Bit#(1) sel, Bit#(5) a, Bit#(5) b);
+    return multiplexerN(sel, a, b);
 endfunction
 
 //typedef 32 N; // Not needed
