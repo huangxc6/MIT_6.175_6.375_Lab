@@ -4,8 +4,11 @@ import Multipliers::*;
 // Example testbenches
 (* synthesize *)
 module mkTbDumb();
+    // function Bit#(16) test_function( Bit#(8) a, Bit#(8) b ) = multiply_unsigned( a, b );
+    // Empty tb <- mkTbMulFunction(multiply_unsigned, multiply_unsigned, True);
     function Bit#(16) test_function( Bit#(8) a, Bit#(8) b ) = multiply_unsigned( a, b );
-    Empty tb <- mkTbMulFunction(test_function, multiply_unsigned, True);
+    function Bit#(16) ref_function( Bit#(8) a, Bit#(8) b )  = multiply_unsigned( a, b );
+    Empty tb <- mkTbMulFunction(test_function, ref_function, True);
     return tb;
 endmodule
 
