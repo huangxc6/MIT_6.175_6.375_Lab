@@ -5,7 +5,8 @@
 2. Discussion Question 2 (2 Points):
     The compiler doesn't know the Bit vector size of multiply_unsigned, it can infer it by defining a size.
 
-3.
+3.Discussion Question 3 (1 Point): Is your implementation of multiply_by_adding a signed multiplier or an unsigned multiplier?
+    unsigned multiplier
 
 4.
 Current Bits | Previous Bit | Original Booth Encoding | Radix-4 Booth Encoding

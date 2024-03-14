@@ -16,11 +16,38 @@ endfunction
 
 
 // Multiplication by repeated addition
-function Bit#(TAdd#(n,n)) multiply_by_adding( Bit#(n) a, Bit#(n) b );
-    // TODO: Implement this function in Exercise 2
-    return 0;
+function Bit#(1) fa_sum( Bit#(1) a, Bit#(1) b, Bit#(1) c_in );
+    return a ^ b ^ c_in;
 endfunction
 
+function Bit#(1) fa_carry( Bit#(1) a, Bit#(1) b, Bit#(1) c_in );
+    return a & b | (a ^ b) & c_in;
+endfunction
+
+function Bit#(TAdd#(n,1)) addn( Bit#(n) a, Bit#(n) b, Bit#(1) c_in );
+    Bit#(n) sum;
+    Bit#(TAdd#(n,1)) cout = 0;
+    cout[0] = c_in;
+    for (Integer i = 0; i < valueOf(n); i = i + 1)
+    begin
+        sum[i] = fa_sum( a[i], b[i], cout[i] );
+        cout[i+1] = fa_carry( a[i], b[i], cout[i] );
+    end
+    return {cout[valueOf(n)], sum};
+endfunction
+
+function Bit#(TAdd#(n,n)) multiply_by_adding( Bit#(n) a, Bit#(n) b );
+    // TODO: Implement this function in Exercise 2
+    Bit#(n) prod = 0;
+    Bit#(n) tp   = 0;
+    for (Integer i=0 ; i<valueOf(n) ; i=i+1)begin
+        Bit#(n) m = (a[i]==0) ? 0 : b;
+        Bit#(TAdd#(n,1)) sum = addn(tp, m, 0);
+        prod[i] = sum[0];
+        tp = sum[valueOf(n):1] ;
+    end
+    return {tp, prod};
+endfunction
 
 
 // Multiplier Interface
