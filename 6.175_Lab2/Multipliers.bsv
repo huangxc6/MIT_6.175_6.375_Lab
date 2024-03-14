@@ -42,9 +42,9 @@ module mkFoldedMultiplier( Multiplier#(n) );
     Reg#(Bit#(n)) tp <- mkRegU();
     Reg#(Bit#(TAdd#(TLog#(n),1))) i <- mkReg( fromInteger(valueOf(n)+1) );
 
-    rule mulStep( /* guard goes here */ );
-        // TODO: Implement this in Exercise 4
-    endrule
+    // rule mulStep( /* guard goes here */ );
+    //     // TODO: Implement this in Exercise 4
+    // endrule
 
     method Bool start_ready();
         // TODO: Implement this in Exercise 4
@@ -75,9 +75,9 @@ module mkBoothMultiplier( Multiplier#(n) );
     Reg#(Bit#(TAdd#(TAdd#(n,n),1))) p <- mkRegU;
     Reg#(Bit#(TAdd#(TLog#(n),1))) i <- mkReg( fromInteger(valueOf(n)+1) );
 
-    rule mul_step( /* guard goes here */ );
-        // TODO: Implement this in Exercise 6
-    endrule
+    // rule mul_step( /* guard goes here */ );
+    //     // TODO: Implement this in Exercise 6
+    // endrule
 
     method Bool start_ready();
         // TODO: Implement this in Exercise 6
@@ -108,9 +108,9 @@ module mkBoothMultiplierRadix4( Multiplier#(n) );
     Reg#(Bit#(TAdd#(TAdd#(n,n),2))) p <- mkRegU;
     Reg#(Bit#(TAdd#(TLog#(n),1))) i <- mkReg( fromInteger(valueOf(n)/2+1) );
 
-    rule mul_step( /* guard goes here */ );
-        // TODO: Implement this in Exercise 8
-    endrule
+    // rule mul_step( /* guard goes here */ );
+    //     // TODO: Implement this in Exercise 8
+    // endrule
 
     method Bool start_ready();
         // TODO: Implement this in Exercise 8

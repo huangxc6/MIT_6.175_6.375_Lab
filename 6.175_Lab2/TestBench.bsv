@@ -19,6 +19,10 @@ endmodule
 (* synthesize *)
 module mkTbSignedVsUnsigned();
     // TODO: Implement test bench for Exercise 1
+    // Exercise 1 (2 Points): tests if multiply_signed produces the same output as multiply_unsigned.
+    function Bit#(16) signed_function( Bit#(8) a, Bit#(8) b ) = multiply_signed( a, b );
+    Empty tb <- mkTbMulFunction(signed_function, multiply_unsigned, True);
+    return tb;
 endmodule
 
 (* synthesize *)
