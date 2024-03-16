@@ -112,6 +112,18 @@ PASSED case 4
 
 unsigned multiplier
 
+# Exercise 4 (4 Points): Fill in the code for the module mkFoldedMultiplier to implement a folded repeated addition multiplier.
+
+Can you implement it without using a variable-shift bit shifter? Without using dynamic bit selection? (In other words, can you avoid shifting or bit selection by a value stored in a register?)
+
+# Exercise 5 (1 Points): Fill in the test bench mkTbEx5 to test the functionality of mkFoldedMultiplier against multiply_by_adding. They should produce the same outputs if you implemented mkFoldedMultiplier correctly. To run these, run
+
+$ make Ex5.tb
+$ ./simEx5
+
+注意mkTbMulModule传参为Multiplier和function
+
+
 
 
 

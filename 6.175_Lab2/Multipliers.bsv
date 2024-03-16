@@ -69,27 +69,43 @@ module mkFoldedMultiplier( Multiplier#(n) );
     Reg#(Bit#(n)) tp <- mkRegU();
     Reg#(Bit#(TAdd#(TLog#(n),1))) i <- mkReg( fromInteger(valueOf(n)+1) );
 
-    // rule mulStep( /* guard goes here */ );
-    //     // TODO: Implement this in Exercise 4
-    // endrule
+    rule mulStep( i < fromInteger(valueOf(n))/* guard goes here */ );
+        // TODO: Implement this in Exercise 4
+        Bit#(n) m = (a[i]==0) ? 0 : b;
+        Bit#(TAdd#(n,1)) sum = addn(tp, m, 0);
+        prod[i] <= sum[0];
+        tp <= sum[valueOf(n):1] ;
+        i <= i + 1;
+    endrule
 
     method Bool start_ready();
         // TODO: Implement this in Exercise 4
-        return False;
+        return i == fromInteger(valueOf(n) + 1);
     endmethod
 
     method Action start( Bit#(n) aIn, Bit#(n) bIn );
         // TODO: Implement this in Exercise 4
+        if (i == fromInteger(valueOf(n) + 1))begin
+            a <= aIn;
+            b <= bIn;
+            prod <= 0;
+            tp <= 0;
+            i <= 0;
+        end
     endmethod
 
     method Bool result_ready();
         // TODO: Implement this in Exercise 4
-        return False;
+        return i == fromInteger(valueOf(n));
     endmethod
 
     method ActionValue#(Bit#(TAdd#(n,n))) result();
         // TODO: Implement this in Exercise 4
-        return 0;
+        if (i == fromInteger(valueOf(n)))begin
+            i <= i + 1;
+            return {tp, prod};
+        end else
+            return 0;
     endmethod
 endmodule
 
