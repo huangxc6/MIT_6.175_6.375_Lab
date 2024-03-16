@@ -64,10 +64,16 @@ endmodule
 (* synthesize *)
 module mkTbEx9a();
     // TODO: Implement test bench for Exercise 9
+    Multiplier#(8) dut <- mkBoothMultiplierRadix4();
+    Empty tb <- mkTbMulModule(dut, multiply_signed, True);
+    return tb;
 endmodule
 
 (* synthesize *)
 module mkTbEx9b();
     // TODO: Implement test bench for Exercise 9
+    Multiplier#(16) dut <- mkBoothMultiplierRadix4();
+    Empty tb <- mkTbMulModule(dut, multiply_signed, True);
+    return tb;
 endmodule
 

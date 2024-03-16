@@ -135,7 +135,23 @@ and
 $ make Ex7b.tb
 $ ./simEx7b
 
+## Discussion Question 4 (1 Point): Fill in above table in discussion.txt. None of the Radix-4 Booth encodings should have more than one non-zero symbol in them.
 
+# Exercise 8 (2 Points): Fill in the implementation for a radix-4 Booth multiplier in the module mkBoothRadix4. This module uses a parameterized input size n; your implementation will be expected to work for all even n >= 2.
+
+# Exercise 9 (1 Point): Fill in test benches mkTbEx9a and mkTbEx9b for your radix-4 Booth multiplier to test different even bit widths of your choice. You can test them with
+
+$ make Ex9a.tb
+$ ./simEx9a
+
+and
+
+$ make Ex9b.tb
+$ ./simEx9b
+
+## Discussion Question 5 (1 Point): Now consider extending your Booth multiplier even further to a radix-8 Booth multiplier. This would be like doing 3 steps of the radix-2 Booth multiplier in a single step. Can all radix-8 Booth encodings be represented with only one non-zero symbol like the radix-4 Booth multiplier? Do you think it would still make sense to make a radix-8 Booth multiplier?
+
+## Discussion Question 6 (Optional): How long did you take to work on this lab?
 
 
 

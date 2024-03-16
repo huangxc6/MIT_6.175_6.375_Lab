@@ -168,33 +168,60 @@ endmodule
 
 
 // Radix-4 Booth Multiplier
+
+function Bit#(n) sal(Bit#(n) a, Integer shift);
+    Int#(n) a_int = unpack(a);
+    Int#(n) result = a_int << shift;
+    return pack(result);
+endfunction
+
 module mkBoothMultiplierRadix4( Multiplier#(n) );
     Reg#(Bit#(TAdd#(TAdd#(n,n),2))) m_neg <- mkRegU;
     Reg#(Bit#(TAdd#(TAdd#(n,n),2))) m_pos <- mkRegU;
     Reg#(Bit#(TAdd#(TAdd#(n,n),2))) p <- mkRegU;
     Reg#(Bit#(TAdd#(TLog#(n),1))) i <- mkReg( fromInteger(valueOf(n)/2+1) );
 
-    // rule mul_step( /* guard goes here */ );
-    //     // TODO: Implement this in Exercise 8
-    // endrule
+    rule mul_step( i < fromInteger(valueOf(n)/2)/* guard goes here */ );
+        // TODO: Implement this in Exercise 8
+        let pr = p[2:0];
+        Bit#(TAdd#(TAdd#(n,n),2)) p_tmp = p;
+        if (pr == 3'b001) begin p_tmp = p + m_pos; end
+        if (pr == 3'b010) begin p_tmp = p + m_pos; end
+        if (pr == 3'b011) begin p_tmp = p + sal(m_pos, 1); end
+        if (pr == 3'b100) begin p_tmp = p + sal(m_neg, 1); end
+        if (pr == 3'b101) begin p_tmp = p + m_neg; end
+        if (pr == 3'b110) begin p_tmp = p + m_neg; end
+        p <= sar(p_tmp, 2);
+        i <= i + 1;
+    endrule
 
     method Bool start_ready();
         // TODO: Implement this in Exercise 8
-        return False;
+        return i == fromInteger(valueOf(n)/2 + 1);
     endmethod
 
     method Action start( Bit#(n) m, Bit#(n) r );
         // TODO: Implement this in Exercise 8
+        if (i == fromInteger(valueOf(n)/2 + 1))begin
+            m_neg <= {msb(-m), (-m), 0};
+            m_pos <= {msb(m) ,   m , 0} ;
+            p <= {0,r,1'b0} ;
+            i <= 0;
+        end
     endmethod
 
     method Bool result_ready();
         // TODO: Implement this in Exercise 8
-        return False;
+        return i == fromInteger(valueOf(n)/2);
     endmethod
 
     method ActionValue#(Bit#(TAdd#(n,n))) result();
         // TODO: Implement this in Exercise 8
-        return 0;
+        if (i == fromInteger(valueOf(n)/2))begin
+            i <= i + 1;
+            return p[2*valueOf(n):1];
+        end else
+            return 0;
     endmethod
 endmodule
 

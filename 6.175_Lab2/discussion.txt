@@ -5,19 +5,27 @@
 2. Discussion Question 2 (2 Points):
     The compiler doesn't know the Bit vector size of multiply_unsigned, it can infer it by defining a size.
 
-3.Discussion Question 3 (1 Point): Is your implementation of multiply_by_adding a signed multiplier or an unsigned multiplier?
+3. Discussion Question 3 (1 Point): Is your implementation of multiply_by_adding a signed multiplier or an unsigned multiplier?
     unsigned multiplier
 
 4.
 Current Bits | Previous Bit | Original Booth Encoding | Radix-4 Booth Encoding
 -------------+--------------+-------------------------+-----------------------
-    00       |      0       |                         |           
-    00       |      1       |                         |           
+    00       |      0       |           00            |         00  
+    00       |      1       |           0+            |         0+  
     01       |      0       |           +-            |         0+
-    01       |      1       |                         |           
-    10       |      0       |                         |           
-    10       |      1       |                         |           
-    11       |      0       |                         |           
-    11       |      1       |                         |           
+    01       |      1       |           +0            |         +0  
+    10       |      0       |           -0            |         -0  
+    10       |      1       |           -+            |         0-  
+    11       |      0       |           0-            |         0-  
+    11       |      1       |           00            |         00  
 
-5.
+5. Discussion Question 5 (1 Point): Now consider extending your Booth multiplier even further to a radix-8 Booth multiplier. 
+   This would be like doing 3 steps of the radix-2 Booth multiplier in a single step. 
+   Can all radix-8 Booth encodings be represented with only one non-zero symbol like the radix-4 Booth multiplier?
+   Do you think it would still make sense to make a radix-8 Booth multiplier?
+   
+   yes
+   面积换速度
+
+6. Discussion Question 6 (Optional): How long did you take to work on this lab?
