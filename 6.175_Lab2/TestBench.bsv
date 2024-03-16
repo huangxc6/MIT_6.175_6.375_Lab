@@ -48,11 +48,17 @@ endmodule
 (* synthesize *)
 module mkTbEx7a();
     // TODO: Implement test bench for Exercise 7
+    Multiplier#(8) dut <- mkBoothMultiplier();
+    Empty tb <- mkTbMulModule(dut, multiply_signed, True);
+    return tb;
 endmodule
 
 (* synthesize *)
 module mkTbEx7b();
     // TODO: Implement test bench for Exercise 7
+    Multiplier#(16) dut <- mkBoothMultiplier();
+    Empty tb <- mkTbMulModule(dut, multiply_signed, True);
+    return tb;
 endmodule
 
 (* synthesize *)

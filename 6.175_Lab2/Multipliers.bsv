@@ -112,33 +112,56 @@ endmodule
 
 
 // Booth Multiplier
+
+function Bit#(n) sar(Bit#(n) a, Integer shift);
+    Int#(n) a_int = unpack(a);
+    Int#(n) result = a_int >> shift;
+    return pack(result);
+endfunction
+
 module mkBoothMultiplier( Multiplier#(n) );
     Reg#(Bit#(TAdd#(TAdd#(n,n),1))) m_neg <- mkRegU;
     Reg#(Bit#(TAdd#(TAdd#(n,n),1))) m_pos <- mkRegU;
     Reg#(Bit#(TAdd#(TAdd#(n,n),1))) p <- mkRegU;
     Reg#(Bit#(TAdd#(TLog#(n),1))) i <- mkReg( fromInteger(valueOf(n)+1) );
 
-    // rule mul_step( /* guard goes here */ );
-    //     // TODO: Implement this in Exercise 6
-    // endrule
+    rule mul_step( i < fromInteger(valueOf(n))/* guard goes here */ );
+        // TODO: Implement this in Exercise 6
+        let pr = p[1:0];
+        Bit#(TAdd#(TAdd#(n,n),1)) p_tmp = p; 
+        if (pr == 2'b01) begin p_tmp = p + m_pos; end
+        if (pr == 2'b10) begin p_tmp = p + m_neg; end
+        p <= sar(p_tmp, 1);
+        i <= i + 1;
+    endrule
 
     method Bool start_ready();
         // TODO: Implement this in Exercise 6
-        return False;
+        return i == fromInteger(valueOf(n) + 1);
     endmethod
 
     method Action start( Bit#(n) m, Bit#(n) r );
         // TODO: Implement this in Exercise 6
+        if (i == fromInteger(valueOf(n) + 1))begin
+            m_neg <= {-m, 0};
+            m_pos <= {m, 0} ;
+            p <= {0,r,1'b0} ;
+            i <= 0;
+        end
     endmethod
 
     method Bool result_ready();
         // TODO: Implement this in Exercise 6
-        return False;
+        return i == fromInteger(valueOf(n));
     endmethod
 
     method ActionValue#(Bit#(TAdd#(n,n))) result();
         // TODO: Implement this in Exercise 6
-        return 0;
+        if (i == fromInteger(valueOf(n)))begin
+            i <= i + 1;
+            return p[2*valueOf(n):1];
+        end else
+            return 0;
     endmethod
 endmodule
 

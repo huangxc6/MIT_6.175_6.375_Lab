@@ -123,6 +123,18 @@ $ ./simEx5
 
 注意mkTbMulModule传参为Multiplier和function
 
+# Exercise 6 (4 Points}: Fill in the implementation for a folded version of the Booth multiplication algorithm in the module mkBooth: This module uses a parameterized input size n; your implementation will be expected to work for all n >= 2.
+
+# Exercise 7 (1 Point): Fill in the test benches mkTbEx7a and mkTbEx7b for your Booth multiplier to test different bit widths of your choice. You can test them with:
+
+$ make Ex7a.tb
+$ ./simEx7a
+
+and
+
+$ make Ex7b.tb
+$ ./simEx7b
+
 
 
 
