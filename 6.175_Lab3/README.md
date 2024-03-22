@@ -38,5 +38,15 @@ huangxc@Ubuntu:~/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab3$ ./simElastic
 PASSED
 ```
 
+## Discussion Questions 1 and 2:
+Assume you are given a black box module that performs a 10-stage algorithm. You can not look at its internal implementation, but you can test this module by giving it data and looking at the output of the module. You have been told that it is implemented as one of the structures covered in this lab, but you do not know which one.
+
+    1. How can you tell whether the implementation of the module is a folded implementation or whether it is a pipeline implementation? (3 Points)
+
+    If the throughput is one, then the implementation is pipelined; otherwise, it is folded.
+
+    2. Once you know the module has a pipeline structure, how can you tell if it is inelastic or if it is elastic? (2 Points)
+
+
 
 

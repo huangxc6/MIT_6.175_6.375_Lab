@@ -1,0 +1,5 @@
+1. If the throughput is one, then the implementation is pipelined; otherwise, it is folded.
+
+2. Bubbles in the input will be propogated to the output if the pipeline implementation is inelastic; 
+if not, the implementation is elastic
+
