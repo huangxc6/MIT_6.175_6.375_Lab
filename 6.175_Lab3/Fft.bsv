@@ -66,8 +66,43 @@ module mkFftFolded(Fft);
     Fifo#(2,Vector#(FftPoints, ComplexData)) outFifo <- mkCFFifo;
     Vector#(16, Bfly4) bfly <- replicateM(mkBfly4);
 
+    Reg#(Vector#(FftPoints, ComplexData)) stage_data <- mkRegU ;
+    Reg#(StageIdx) stage <- mkRegU;
+
+    function Vector#(FftPoints, ComplexData) f(Vector#(FftPoints, ComplexData) stage_in);
+        Vector#(FftPoints, ComplexData) stage_temp, stage_out;
+        for (FftIdx i = 0; i < fromInteger(valueOf(BflysPerStage)); i = i + 1)  begin
+            FftIdx idx = i * 4;
+            Vector#(4, ComplexData) x;
+            Vector#(4, ComplexData) twid;
+            for (FftIdx j = 0; j < 4; j = j + 1 ) begin
+                x[j] = stage_in[idx+j];
+                twid[j] = getTwiddle(stage, idx+j);
+            end
+            let y = bfly[i].bfly4(twid, x);
+
+            for(FftIdx j = 0; j < 4; j = j + 1 ) begin
+                stage_temp[idx+j] = y[j];
+            end
+        end
+
+        stage_out = permute(stage_temp);
+
+        return stage_out;
+    endfunction
+
     rule doFft;
         //TODO: Implement the rest of this module
+        let sxIn = ?;
+        if (stage == 0) begin
+            inFifo.deq;
+            sxIn = inFifo.first; end
+        else sxIn = stage_data;
+        let sxOut = f(sxIn);
+        if (stage == 2) begin
+            outFifo.enq(sxOut); 
+            stage <= 0; end
+        else begin stage_data <= sxOut; stage <= stage + 1; end
     endrule
 
     method Action enq(Vector#(FftPoints, ComplexData) in) if( inFifo.notFull );
