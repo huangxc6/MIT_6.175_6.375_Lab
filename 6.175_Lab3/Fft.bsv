@@ -183,6 +183,53 @@ module mkFftElasticPipeline(Fft);
     //TODO: Implement the rest of this module
     // You should use more than one rule
 
+    Fifo#(2, Vector#(FftPoints, ComplexData)) sFifo1 <- mkCFFifo;
+    Fifo#(2, Vector#(FftPoints, ComplexData)) sFifo2 <- mkCFFifo;
+
+    function Vector#(FftPoints, ComplexData) f(StageIdx stage, Vector#(FftPoints, ComplexData) stage_in);
+        Vector#(FftPoints, ComplexData) stage_temp, stage_out;
+        for (FftIdx i = 0; i < fromInteger(valueOf(BflysPerStage)); i = i + 1)  begin
+            FftIdx idx = i * 4;
+            Vector#(4, ComplexData) x;
+            Vector#(4, ComplexData) twid;
+            for (FftIdx j = 0; j < 4; j = j + 1 ) begin
+                x[j] = stage_in[idx+j];
+                twid[j] = getTwiddle(stage, idx+j);
+            end
+            let y = bfly[stage][i].bfly4(twid, x);
+
+            for(FftIdx j = 0; j < 4; j = j + 1 ) begin
+                stage_temp[idx+j] = y[j];
+            end
+        end
+
+        stage_out = permute(stage_temp);
+
+        return stage_out;
+
+    endfunction
+
+    rule stage1;
+        if (inFifo.notEmpty && sFifo1.notFull) begin
+            inFifo.deq;
+            sFifo1.enq(f(0, inFifo.first));
+        end
+    endrule
+
+    rule stage2;
+        if (sFifo1.notEmpty && sFifo2.notFull) begin
+            sFifo1.deq;
+            sFifo2.enq(f(1, sFifo1.first));
+        end
+    endrule
+
+    rule stage3;
+        if (sFifo2.notEmpty && outFifo.notFull) begin
+            sFifo2.deq;
+            outFifo.enq(f(2, sFifo2.first));
+        end
+    endrule
+
     method Action enq(Vector#(FftPoints, ComplexData) in);
         inFifo.enq(in);
     endmethod

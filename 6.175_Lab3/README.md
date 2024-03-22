@@ -24,3 +24,19 @@ huangxc@Ubuntu:~/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab3$ ./simInelastic
 PASSED
 ```
 
+## Exercise 4 (10 Points):
+
+In mkFftElasticPipeline, create an elastic pipeline FFT implementation. This implementation should make use of 48 butterflies and two large FIFOs. The stages between the FIFOs should be in their own rules that can fire independently. The latency of this pipelined unit must also be exactly 3 cycles, though its throughput would be 1 FFT operation every cycle.
+
+The Makefile can be used to build simElastic to test this implementation. Compile and run using
+
+$ make elastic
+$ ./simElastic
+
+``` shell
+huangxc@Ubuntu:~/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab3$ ./simElastic
+PASSED
+```
+
+
+
