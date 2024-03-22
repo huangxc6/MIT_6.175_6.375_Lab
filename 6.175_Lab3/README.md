@@ -47,6 +47,10 @@ Assume you are given a black box module that performs a 10-stage algorithm. You 
 
     2. Once you know the module has a pipeline structure, how can you tell if it is inelastic or if it is elastic? (2 Points)
 
+``` shell
+huangxc@Ubuntu:~/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab3$ ./simSfol
+PASSED
+```
 
 
 
