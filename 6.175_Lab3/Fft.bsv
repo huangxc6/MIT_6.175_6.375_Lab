@@ -115,14 +115,53 @@ module mkFftFolded(Fft);
     endmethod
 endmodule
 
+typedef union tagged { void Valid; void Invalid; } Validity deriving (Eq, Bits);
+
 (* synthesize *)
 module mkFftInelasticPipeline(Fft);
     Fifo#(2,Vector#(FftPoints, ComplexData)) inFifo <- mkCFFifo;
     Fifo#(2,Vector#(FftPoints, ComplexData)) outFifo <- mkCFFifo;
     Vector#(3, Vector#(16, Bfly4)) bfly <- replicateM(replicateM(mkBfly4));
 
+    Reg#(Vector#(FftPoints, ComplexData)) sReg1 <- mkRegU;
+    Reg#(Vector#(FftPoints, ComplexData)) sReg2 <- mkRegU;
+    Reg#(Validity) sReg1_valid <- mkReg(Invalid);
+    Reg#(Validity) sReg2_valid <- mkReg(Invalid);
+
+    function Vector#(FftPoints, ComplexData) f(StageIdx stage, Vector#(FftPoints, ComplexData) stage_in);
+        Vector#(FftPoints, ComplexData) stage_temp, stage_out;
+        for (FftIdx i = 0; i < fromInteger(valueOf(BflysPerStage)); i = i + 1)  begin
+            FftIdx idx = i * 4;
+            Vector#(4, ComplexData) x;
+            Vector#(4, ComplexData) twid;
+            for (FftIdx j = 0; j < 4; j = j + 1 ) begin
+                x[j] = stage_in[idx+j];
+                twid[j] = getTwiddle(stage, idx+j);
+            end
+            let y = bfly[stage][i].bfly4(twid, x);
+
+            for(FftIdx j = 0; j < 4; j = j + 1 ) begin
+                stage_temp[idx+j] = y[j];
+            end
+        end
+
+        stage_out = permute(stage_temp);
+
+        return stage_out;
+    endfunction
+
     rule doFft;
         //TODO: Implement the rest of this module
+        if (outFifo.notFull || sReg2_valid != Valid)begin
+            if (inFifo.notEmpty) begin
+                inFifo.deq;
+                sReg1 <= f(0, inFifo.first);
+                sReg1_valid <= Valid;
+        end else sReg1_valid <= Invalid;
+        end
+        sReg2 <= f(1, sReg1);
+        sReg2_valid <= sReg1_valid;
+        if (sReg2_valid == Valid) outFifo.enq(f(2, sReg2));
     endrule
 
     method Action enq(Vector#(FftPoints, ComplexData) in);
