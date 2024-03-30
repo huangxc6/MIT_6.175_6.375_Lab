@@ -29,6 +29,50 @@ module mkMyConflictFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
     Bit#(TLog#(n))          max_index = fromInteger(valueOf(n)-1);
 
     // TODO: Implement all the methods for this module
+    method Bool notFull();
+        return !full;
+    endmethod
+
+    method Action enq(t x) if (!full);
+        data[enqP] <= x;
+        let next_enqP = enqP + 1;
+        if (next_enqP > max_index) begin
+            next_enqP = 0;
+        end
+        if (next_enqP == deqP) begin
+            full <= True;
+        end
+        enqP <= next_enqP;
+        empty <= False;
+    endmethod
+
+    method Bool notEmpty();
+        return !empty;
+    endmethod
+
+    method Action deq() if (!empty);
+        let next_deqP = deqP + 1;
+        if (next_deqP > max_index) begin
+            next_deqP = 0;
+        end
+        if (next_deqP == enqP) begin
+            empty <= True;
+        end
+        deqP <= next_deqP;
+        full <= False;
+    endmethod
+
+    method t first() if (!empty);
+        return data[deqP];
+    endmethod
+
+    method Action clear();
+        enqP <= 0;
+        deqP <= 0;
+        empty <= True;
+        full <= False;
+    endmethod
+
 endmodule
 
 /////////////////
@@ -36,20 +80,20 @@ endmodule
 
 // Intended schedule:
 //      {notEmpty, first, deq} < {notFull, enq} < clear
-module mkMyPipelineFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
-    // n is size of fifo
-    // t is data type of fifo
-endmodule
+// module mkMyPipelineFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
+//     // n is size of fifo
+//     // t is data type of fifo
+// endmodule
 
 /////////////////////////////
 // Bypass FIFO without clear
 
 // Intended schedule:
 //      {notFull, enq} < {notEmpty, first, deq} < clear
-module mkMyBypassFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
-    // n is size of fifo
-    // t is data type of fifo
-endmodule
+// module mkMyBypassFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
+//     // n is size of fifo
+//     // t is data type of fifo
+// endmodule
 
 //////////////////////
 // Conflict free fifo
@@ -57,8 +101,8 @@ endmodule
 // Intended schedule:
 //      {notFull, enq} CF {notEmpty, first, deq}
 //      {notFull, enq, notEmpty, first, deq} < clear
-module mkMyCFFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
-    // n is size of fifo
-    // t is data type of fifo
-endmodule
+// module mkMyCFFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
+//     // n is size of fifo
+//     // t is data type of fifo
+// endmodule
 
