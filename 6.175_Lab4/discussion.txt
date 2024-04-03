@@ -26,28 +26,33 @@ clear
 
            notEmpty   first   deq   notFull   enq   clear
          +----------+-------+-----+---------+-----+-------+
-notEmpty |    CF    |   CF  |  <  |    CF   |  <  |   <   |
+notEmpty |    CF    |   CF  |  >  |    CF   |  >  |   >   |
          +----------+-------+-----+---------+-----+-------+
-first    |    CF    |   CF  |  <  |    CF   |  <  |   <   |
+first    |    CF    |   CF  |  >  |    CF   |  CF |   >   |
          +----------+-------+-----+---------+-----+-------+
-deq      |    >     |   >   |  C  |    >    |  C  |   <   |
+deq      |    <     |   <   |  C  |    <    |  C  |   C   |
          +----------+-------+-----+---------+-----+-------+
-notFull  |    CF    |   CF  |  <  |    CF   |  <  |   <   |
+notFull  |    CF    |   CF  |  >  |    CF   |  >  |   >   |
          +----------+-------+-----+---------+-----+-------+
-enq      |    >     |   >   |  C  |    >    |  C  |   <   |
+enq      |    <     |   CF  |  C  |    <    |  C  |   C   |
          +----------+-------+-----+---------+-----+-------+
-clear    |    >     |   >   |  >  |    >    |  >  |   CF  |
+clear    |    <     |   <   |  C  |    <    |  C  |   CF  |
          +----------+-------+-----+---------+-----+-------+
 
 
 
 3. Which conflicts from mkMyConflictFifo do not match the conflict-free FIFO
     scheduling constraints?
-
+    conflict-free FIFO
+        {notFull, enq} CF {notEmpty, first, deq}
+        {notFull, enq, notEmpty, first, deq} < clear
+    enq and deq conflict, do not match (enq CF deq)
+    enq, deq and clear conflict, do not match {enq, deq} < clear
 
 
 4. In your design of the clear method in mkMyCFFifo, how did you force the
     scheduling constraint {enq, deq} < clear?
-
+    force this scheduling constraint.
+    Set clear as highest priority.
 
 
