@@ -202,7 +202,7 @@ module mkMyBypassFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
     endmethod
         
 endmodule
-/*
+
 //////////////////////
 // Conflict free fifo
 
@@ -298,4 +298,4 @@ module mkMyCFFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
     endmethod
     
 endmodule
-*/
+

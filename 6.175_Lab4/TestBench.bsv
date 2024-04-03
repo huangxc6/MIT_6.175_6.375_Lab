@@ -29,7 +29,7 @@ module mkTbBypassFunctional();
     Bool has_clear = True;
     let m <- mkTbFunctionalTemplate( fifo, Bypass, has_clear );
 endmodule
-/*
+
 (* synthesize *)
 module mkTbCFNCFunctional();
     Fifo#(3, Bit#(8)) fifo <- mkMyCFFifo();
@@ -65,7 +65,6 @@ endmodule
 // // not an interface. This testbench uses the module constructor to construct
 // // two copies of the same fifo for scheduling tests.
 
-*/
 (* synthesize *)
 module mkTbPipelineScheduling();
     Bool has_clear = True;
@@ -77,7 +76,7 @@ module mkTbBypassScheduling();
     Bool has_clear = True;
     let m <- mkTbSchedulingTemplate( mkMyBypassFifo, Bypass, has_clear );
 endmodule
-/*
+
 (* synthesize *)
 module mkTbCFNCScheduling();
     Bool has_clear = False; // CF but no clear method
@@ -89,4 +88,3 @@ module mkTbCFScheduling();
     Bool has_clear = True; // CF with clear method
     let m <- mkTbSchedulingTemplate( mkMyCFFifo, CF, has_clear );
 endmodule
-*/
