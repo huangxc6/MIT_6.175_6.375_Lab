@@ -22,14 +22,14 @@ module mkTbPipelineFunctional();
     Bool has_clear = True;
     let m <- mkTbFunctionalTemplate( fifo, Pipeline, has_clear );
 endmodule
-/*
+
 (* synthesize *)
 module mkTbBypassFunctional();
     Fifo#(3, Bit#(8)) fifo <- mkMyBypassFifo();
     Bool has_clear = True;
     let m <- mkTbFunctionalTemplate( fifo, Bypass, has_clear );
 endmodule
-
+/*
 (* synthesize *)
 module mkTbCFNCFunctional();
     Fifo#(3, Bit#(8)) fifo <- mkMyCFFifo();
@@ -72,13 +72,12 @@ module mkTbPipelineScheduling();
     let m <- mkTbSchedulingTemplate( mkMyPipelineFifo, Pipeline, has_clear );
 endmodule
 
-/*
 (* synthesize *)
 module mkTbBypassScheduling();
     Bool has_clear = True;
     let m <- mkTbSchedulingTemplate( mkMyBypassFifo, Bypass, has_clear );
 endmodule
-
+/*
 (* synthesize *)
 module mkTbCFNCScheduling();
     Bool has_clear = False; // CF but no clear method

@@ -26,3 +26,26 @@ and
 $ ./simBypassFunctional
 
 If you are having trouble implementing clear with the correct schedule and functionality, you can remove it from the tests temporarily by setting has_clear to false in the associated modules in TestBench.bsv.
+
+``` shell
+= cycle 1427 ====================
+	Enqueued 163
+= cycle 1428 ====================
+	Enqueued 127
+	Dequeued 163
+= cycle 1429 ====================
+	Enqueued 213
+	Dequeued 127
+= cycle 1430 ====================
+	Enqueued 128
+	Dequeued 213
+= cycle 1431 ====================
+	Enqueued 185
+	Dequeued 128
+= cycle 1432 ====================
+	Enqueued 146
+	Dequeued 185
+= cycle 1433 ====================
+	Finished Test
+	Output count = 949
+```

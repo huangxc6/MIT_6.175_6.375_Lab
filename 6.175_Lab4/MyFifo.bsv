@@ -139,7 +139,6 @@ module mkMyPipelineFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
 
 endmodule
 
-/*
 /////////////////////////////
 // Bypass FIFO without clear
 
@@ -203,7 +202,7 @@ module mkMyBypassFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
     endmethod
         
 endmodule
-
+/*
 //////////////////////
 // Conflict free fifo
 
