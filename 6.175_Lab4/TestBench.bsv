@@ -15,14 +15,14 @@ module mkTbConflictFunctional();
     let m <- mkTbFunctionalTemplate( fifo, Conflict, has_clear );
 endmodule
 
-/*
+
 (* synthesize *)
 module mkTbPipelineFunctional();
     Fifo#(3, Bit#(8)) fifo <- mkMyPipelineFifo();
     Bool has_clear = True;
     let m <- mkTbFunctionalTemplate( fifo, Pipeline, has_clear );
 endmodule
-
+/*
 (* synthesize *)
 module mkTbBypassFunctional();
     Fifo#(3, Bit#(8)) fifo <- mkMyBypassFifo();
@@ -65,12 +65,14 @@ endmodule
 // // not an interface. This testbench uses the module constructor to construct
 // // two copies of the same fifo for scheduling tests.
 
+*/
 (* synthesize *)
 module mkTbPipelineScheduling();
     Bool has_clear = True;
     let m <- mkTbSchedulingTemplate( mkMyPipelineFifo, Pipeline, has_clear );
 endmodule
 
+/*
 (* synthesize *)
 module mkTbBypassScheduling();
     Bool has_clear = True;

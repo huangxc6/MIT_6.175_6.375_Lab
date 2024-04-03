@@ -75,7 +75,7 @@ module mkMyConflictFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
 
 endmodule
 
-/*
+
 /////////////////
 // Pipeline FIFO
 
@@ -111,7 +111,7 @@ module mkMyPipelineFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
     endmethod
 
     method Bool notEmpty();
-        return !empty[1];
+        return !empty[0];
     endmethod
 
     method Action deq() if (!empty[0]);
@@ -139,6 +139,7 @@ module mkMyPipelineFifo( Fifo#(n, t) ) provisos (Bits#(t,tSz));
 
 endmodule
 
+/*
 /////////////////////////////
 // Bypass FIFO without clear
 
