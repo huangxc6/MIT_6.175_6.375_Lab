@@ -3,7 +3,7 @@ all: compile conflict pipeline bypass cf
 
 compile:
 	mkdir -p buildDir
-	bsc -u -sim -bdir buildDir -info-dir buildDir -simdir buildDir -vdir buildDir -aggressive-conditions -keep-fires TestBench.bsv
+	bsc -u -sim -bdir buildDir -info-dir buildDir -simdir buildDir -vdir buildDir -aggressive-conditions -keep-fires TestBench.bsv 
 
 conflict: compile
 	bsc -sim -e mkTbConflictFunctional -bdir buildDir -info-dir buildDir -simdir buildDir -aggressive-conditions -keep-fires -o simConflictFunctional

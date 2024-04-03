@@ -17,7 +17,7 @@ module mkTestCFFifo(Fifo#(n,t)) provisos(Bits#(t,tSz));
     // Built-in FIFO with slightly different scheduling annotations
     FIFOF#(t) ref_noncf_fifo <- mkSizedFIFOF(valueOf(n));
     Ehr#(3, Maybe#(t)) _enq <- mkEhr(tagged Invalid);
-    Ehr#(3, Maybe#(void)) _deq <- mkEhr(tagged Invalid);
+    Ehr#(3, Maybe#(Bool)) _deq <- mkEhr(tagged Invalid);
     Ehr#(2, t) _first <- mkEhr(?);
     Ehr#(2, Bool) _not_full <- mkEhr(True);
     Ehr#(2, Bool) _not_empty <- mkEhr(False);
@@ -61,7 +61,7 @@ module mkTestCFFifo(Fifo#(n,t)) provisos(Bits#(t,tSz));
     endmethod
 
     method Action deq if(_not_empty[1]);
-        _deq[0] <= tagged Valid;
+        _deq[0] <= tagged Valid False;
     endmethod
 
     method t first if(_not_empty[1]);
@@ -182,7 +182,7 @@ module mkTbFunctionalTemplate( Fifo#(n, Bit#(m)) fifo, FifoType fifo_type, Bool 
         randomC.cntrl.init;
         randomData.cntrl.init;
     endrule
-    
+
     rule feed_inputs (input_count < 1024);
         let rnd <- randomA.next;
         if( rnd != 0 ) begin // P = 3/4

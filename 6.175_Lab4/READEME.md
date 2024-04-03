@@ -8,3 +8,21 @@ There is no scheduling testbench for this module because enq and deq are expecte
 ### Discussion Question 1 (5 points): What registers are read from and written to in each of the interface methods? Remember that register reads performed in guards count.
 
 ### Discussion Question 2 (5 Points): Fill out the conflict matrix for mkMyConflictFifo. For simplicity, treat writes to the same register as conflicting (not just conflicting within a single rule).
+
+## Exercise 2 (10 Points): Implement mkMyPipelineFifo and mkMyBypassFifo in MyFifo.bsv using EHRs and the method mentioned above. You can build the functional and scheduling testbenches for the pipeline FIFO and the bypass FIFO by running
+
+$ make pipeline
+
+and
+
+$ make bypass
+
+respectively. If these compile with no scheduling warning, then the scheduling testbench passed and the two FIFOs have the expected scheduling behavior. To test their functionality against reference implementations you can run
+
+$ ./simPipelineFunctional
+
+and
+
+$ ./simBypassFunctional
+
+If you are having trouble implementing clear with the correct schedule and functionality, you can remove it from the tests temporarily by setting has_clear to false in the associated modules in TestBench.bsv.
