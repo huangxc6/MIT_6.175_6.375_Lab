@@ -1,4 +1,4 @@
-# Exercise 1 (2 Points): In TestBench.bsv, write a test bench mkTbSignedVsUnsigned that tests if multiply_signed produces the same output as multiply_unsigned. Compile this test bench as described above and run it. (That is, run
+## Exercise 1 (2 Points): In TestBench.bsv, write a test bench mkTbSignedVsUnsigned that tests if multiply_signed produces the same output as multiply_unsigned. Compile this test bench as described above and run it. (That is, run
 
 $ make SignedVsUnsigned.tb
 
@@ -44,7 +44,7 @@ FAILED:
     if unsigned: 81 * 255 test function gave 20655 instead of 65455
 ```
 
-## Discussion Question 2 (2 Points): In mkTBDumb excluding the line
+### Discussion Question 2 (2 Points): In mkTBDumb excluding the line
 
 function Bit#(16) test_function( Bit#(8) a, Bit#(8) b ) = multiply_unsigned( a, b );
 
@@ -81,9 +81,9 @@ the compiler does not know the input or output bit vector size of multiply_unsig
 The compiler doesn't know the Bit vector size of multiply_unsigned, it can infer it by defining a size.
 
 ```
-# Exercise 2 (3 Points): Fill in the code for multiply_by_adding so it calculates the product of a and b using repeated addition in a single clock cycle. (You will verify the correctness of your multiplier in Exercise 3.) If you need an adder to produce an (n+1)-bit output from two n-bit operands, follow the model of multiply_unsigned and multiply_signed and extend the operands to (n+1)-bit before adding.
+## Exercise 2 (3 Points): Fill in the code for multiply_by_adding so it calculates the product of a and b using repeated addition in a single clock cycle. (You will verify the correctness of your multiplier in Exercise 3.) If you need an adder to produce an (n+1)-bit output from two n-bit operands, follow the model of multiply_unsigned and multiply_signed and extend the operands to (n+1)-bit before adding.
 
-# Exercise 3 (1 Point): Fill in the test bench mkTbEx3 in TestBench.bsv to test the functionality of multiply_by_adding. Compile it with
+## Exercise 3 (1 Point): Fill in the test bench mkTbEx3 in TestBench.bsv to test the functionality of multiply_by_adding. Compile it with
 
 $ make Ex3.tb
 
@@ -108,24 +108,24 @@ PASSED case 4
 
 ```
 
-## Discussion Question 3 (1 Point): Is your implementation of multiply_by_adding a signed multiplier or an unsigned multiplier? (Note: if it does not match either multiply_signed or multiply_unsigned, it is wrong).
+### Discussion Question 3 (1 Point): Is your implementation of multiply_by_adding a signed multiplier or an unsigned multiplier? (Note: if it does not match either multiply_signed or multiply_unsigned, it is wrong).
 
 unsigned multiplier
 
-# Exercise 4 (4 Points): Fill in the code for the module mkFoldedMultiplier to implement a folded repeated addition multiplier.
+## Exercise 4 (4 Points): Fill in the code for the module mkFoldedMultiplier to implement a folded repeated addition multiplier.
 
 Can you implement it without using a variable-shift bit shifter? Without using dynamic bit selection? (In other words, can you avoid shifting or bit selection by a value stored in a register?)
 
-# Exercise 5 (1 Points): Fill in the test bench mkTbEx5 to test the functionality of mkFoldedMultiplier against multiply_by_adding. They should produce the same outputs if you implemented mkFoldedMultiplier correctly. To run these, run
+## Exercise 5 (1 Points): Fill in the test bench mkTbEx5 to test the functionality of mkFoldedMultiplier against multiply_by_adding. They should produce the same outputs if you implemented mkFoldedMultiplier correctly. To run these, run
 
 $ make Ex5.tb
 $ ./simEx5
 
 注意mkTbMulModule传参为Multiplier和function
 
-# Exercise 6 (4 Points}: Fill in the implementation for a folded version of the Booth multiplication algorithm in the module mkBooth: This module uses a parameterized input size n; your implementation will be expected to work for all n >= 2.
+## Exercise 6 (4 Points): Fill in the implementation for a folded version of the Booth multiplication algorithm in the module mkBooth: This module uses a parameterized input size n; your implementation will be expected to work for all n >= 2.
 
-# Exercise 7 (1 Point): Fill in the test benches mkTbEx7a and mkTbEx7b for your Booth multiplier to test different bit widths of your choice. You can test them with:
+## Exercise 7 (1 Point): Fill in the test benches mkTbEx7a and mkTbEx7b for your Booth multiplier to test different bit widths of your choice. You can test them with:
 
 $ make Ex7a.tb
 $ ./simEx7a
@@ -135,11 +135,11 @@ and
 $ make Ex7b.tb
 $ ./simEx7b
 
-## Discussion Question 4 (1 Point): Fill in above table in discussion.txt. None of the Radix-4 Booth encodings should have more than one non-zero symbol in them.
+### Discussion Question 4 (1 Point): Fill in above table in discussion.txt. None of the Radix-4 Booth encodings should have more than one non-zero symbol in them.
 
-# Exercise 8 (2 Points): Fill in the implementation for a radix-4 Booth multiplier in the module mkBoothRadix4. This module uses a parameterized input size n; your implementation will be expected to work for all even n >= 2.
+## Exercise 8 (2 Points): Fill in the implementation for a radix-4 Booth multiplier in the module mkBoothRadix4. This module uses a parameterized input size n; your implementation will be expected to work for all even n >= 2.
 
-# Exercise 9 (1 Point): Fill in test benches mkTbEx9a and mkTbEx9b for your radix-4 Booth multiplier to test different even bit widths of your choice. You can test them with
+## Exercise 9 (1 Point): Fill in test benches mkTbEx9a and mkTbEx9b for your radix-4 Booth multiplier to test different even bit widths of your choice. You can test them with
 
 $ make Ex9a.tb
 $ ./simEx9a
@@ -149,9 +149,9 @@ and
 $ make Ex9b.tb
 $ ./simEx9b
 
-## Discussion Question 5 (1 Point): Now consider extending your Booth multiplier even further to a radix-8 Booth multiplier. This would be like doing 3 steps of the radix-2 Booth multiplier in a single step. Can all radix-8 Booth encodings be represented with only one non-zero symbol like the radix-4 Booth multiplier? Do you think it would still make sense to make a radix-8 Booth multiplier?
+### Discussion Question 5 (1 Point): Now consider extending your Booth multiplier even further to a radix-8 Booth multiplier. This would be like doing 3 steps of the radix-2 Booth multiplier in a single step. Can all radix-8 Booth encodings be represented with only one non-zero symbol like the radix-4 Booth multiplier? Do you think it would still make sense to make a radix-8 Booth multiplier?
 
-## Discussion Question 6 (Optional): How long did you take to work on this lab?
+### Discussion Question 6 (Optional): How long did you take to work on this lab?
 
 
 
