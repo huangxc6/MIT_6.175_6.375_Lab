@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
 import Types::*;
+import CMemTypes::*;
 import ProcTypes::*;
 import Vector::*;
 
@@ -27,11 +28,11 @@ function Data alu(Data a, Data b, AluFunc func);
      And   : (a & b);
      Or    : (a | b);
      Xor   : (a ^ b);
-     Nor   : ~(a | b);
      Slt   : zeroExtend( pack( signedLT(a, b) ) );
      Sltu  : zeroExtend( pack( a < b ) );
-     LShift: (a << b[4:0]);
-     RShift: (a >> b[4:0]);
+	 // 5-bit shift width for 32-bit data
+     Sll   : (a << b[4:0]);
+     Srl   : (a >> b[4:0]);
      Sra   : signedShiftRight(a, b[4:0]);
   endcase;
   return res;
@@ -42,10 +43,10 @@ function Bool aluBr(Data a, Data b, BrFunc brFunc);
   Bool brTaken = case(brFunc)
     Eq  : (a == b);
     Neq : (a != b);
-    Le  : signedLE(a, 0);
-    Lt  : signedLT(a, 0);
-    Ge  : signedGE(a, 0);
-    Gt  : signedGT(a, 0);
+    Lt  : signedLT(a, b);
+    Ltu : (a < b);
+    Ge  : signedGE(a, b);
+    Geu : (a >= b);
     AT  : True;
     NT  : False;
   endcase;
@@ -54,43 +55,48 @@ endfunction
 
 (* noinline *)
 function Addr brAddrCalc(Addr pc, Data val, IType iType, Data imm, Bool taken);
-  Addr pcPlus4 = pc + 4; 
+  Addr pcPlus4 = pc + 4;
   Addr targetAddr = case (iType)
-    J  : {pcPlus4[31:28], imm[27:0]};
-    Jr : val;
-    Br : (taken? pcPlus4 + imm : pcPlus4);
-    Alu, Ld, St, Mfc0, Mtc0, Unsupported: pcPlus4;
+    J  : (pc + imm);
+    Jr : {truncateLSB(val + imm), 1'b0};
+    Br : (taken ? pc + imm : pcPlus4);
+    default: pcPlus4;
   endcase;
   return targetAddr;
 endfunction
 
 (* noinline *)
-function ExecInst exec(DecodedInst dInst, Data rVal1, Data rVal2, Addr pc, Addr ppc, Data copVal);
+function ExecInst exec(DecodedInst dInst, Data rVal1, Data rVal2, Addr pc, Addr ppc, Data csrVal);
   ExecInst eInst = ?;
-  Data aluVal2 = isValid(dInst.imm) ? validValue(dInst.imm) : rVal2;
-  
+
+  // do ALU operation: use imm instead of rs2 if imm is valid (consider LW and SW)
+  Data aluVal2 = isValid(dInst.imm) ? fromMaybe(?, dInst.imm) : rVal2;
   let aluRes = alu(rVal1, aluVal2, dInst.aluFunc);
   
+  // set eInst
   eInst.iType = dInst.iType;
-  
-  eInst.data = dInst.iType == Mfc0?
-                 copVal :
-               dInst.iType == Mtc0?
-                 rVal1 :
-               dInst.iType==St?
-                 rVal2 :
-               (dInst.iType==J || dInst.iType==Jr) ?
-                 (pc+4) :
-                 aluRes;
-  
-  let brTaken = aluBr(rVal1, rVal2, dInst.brFunc);
-  let brAddr = brAddrCalc(pc, rVal1, dInst.iType, validValue(dInst.imm), brTaken);
-  eInst.mispredict = brAddr != ppc;
-
-  eInst.brTaken = brTaken;
-  eInst.addr = (dInst.iType == Ld || dInst.iType == St) ? aluRes : brAddr;
-  
   eInst.dst = dInst.dst;
+  eInst.csr = dInst.csr;
+  
+  eInst.data = dInst.iType == Csrr ?
+                 csrVal :
+			   dInst.iType == Csrw ?
+			     rVal1 :
+               dInst.iType==St ?
+                 rVal2 :
+               (dInst.iType==J || dInst.iType == Jr) ?
+                 (pc+4) :
+               dInst.iType==Auipc ?
+                 (pc + fromMaybe(?, dInst.imm)) :
+                 aluRes;
 
+  let brTaken = aluBr(rVal1, rVal2, dInst.brFunc);
+  let brAddr = brAddrCalc(pc, rVal1, dInst.iType, fromMaybe(?, dInst.imm), brTaken);
+
+  eInst.addr = (dInst.iType == Ld || dInst.iType == St) ? aluRes : brAddr;
+  eInst.mispredict = brAddr != ppc;
+  eInst.brTaken = brTaken;
+  
   return eInst;
 endfunction
+

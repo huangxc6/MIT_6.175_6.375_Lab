@@ -3,7 +3,7 @@ import GetPut::*;
 import BRAM::*;
 
 import Types::*;
-import MemTypes::*;
+import CMemTypes::*;
 import RegFile::*;
 
 module mkMemInitRegFile(RegFile#(Bit#(16), Data) mem, MemInitIfc ifc);

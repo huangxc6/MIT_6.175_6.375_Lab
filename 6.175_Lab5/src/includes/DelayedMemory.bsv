@@ -13,7 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
 import Types::*;
-import MemTypes::*;
+import CMemTypes::*;
 import MemInit::*;
 import Fifo::*;
 import RegFile::*;
@@ -26,12 +26,11 @@ interface DelayedMemory;
 endinterface
 
 module mkDelayedMemory(DelayedMemory);
-    RegFile#(Bit#(16), Data) mem <- mkRegFileFull();
     Fifo#(2, MemResp) outFifo <- mkCFFifo();
+	RegFile#(Bit#(16), Data) mem <- mkRegFileFullLoad("mem.vmh");
+	MemInitIfc memInit <- mkDummyMemInit;
 
-    MemInitIfc memInit <- mkMemInitRegFile(mem);
-
-    method Action req(MemReq r);
+    method Action req(MemReq r) if (memInit.done());
         Bit#(16) index = truncate(r.addr>>2);
         let data = mem.sub(index);
         if(r.op==St) begin
@@ -41,7 +40,7 @@ module mkDelayedMemory(DelayedMemory);
         end
     endmethod
 
-    method ActionValue#(MemResp) resp();
+    method ActionValue#(MemResp) resp() if (memInit.done());
         let data = outFifo.first();
         outFifo.deq();
         return data;

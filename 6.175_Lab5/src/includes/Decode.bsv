@@ -20,200 +20,201 @@ import ProcTypes::*;
 import Vector::*;
 
 (* noinline *)
-function DecodedInst decode(Data inst);
-    DecodedInst dInst = ?;
-    let opcode = inst[ 31 : 26 ];
-    let rs     = inst[ 25 : 21 ];
-    let rt     = inst[ 20 : 16 ];
-    let rd     = inst[ 15 : 11 ];
-    let shamt  = inst[ 10 :  6 ];
-    let funct  = inst[  5 :  0 ];
-    let imm    = inst[ 15 :  0 ];
-    let target = inst[ 25 :  0 ];
+function DecodedInst decode(Instruction inst);
+	DecodedInst dInst = ?;
 
-    case (opcode)
-        opADDIU, opSLTI, opSLTIU, opANDI, opORI, opXORI, opLUI:
-        begin
-            dInst.iType = Alu;
-            dInst.aluFunc = case (opcode)
-                opADDIU, opLUI: Add;
-                opSLTI: Slt;
-                opSLTIU: Sltu;
-                opANDI: And;
-                opORI: Or;
-                opXORI: Xor;
-            endcase;
-            dInst.dst = validReg(rt);
-            dInst.src1 = validReg(rs);
-            dInst.src2 = Invalid;
-            dInst.imm = Valid(case (opcode)
-                opADDIU, opSLTI, opSLTIU: signExtend(imm);
-                opLUI: {imm, 16'b0};
-                default: zeroExtend(imm);
-            endcase);
-            dInst.brFunc = NT;
-        end
+	Opcode opcode = inst[  6 :  0 ];
+	let rd        =        inst[ 11 :  7 ];
+	let funct3    =        inst[ 14 : 12 ];
+	let rs1       =        inst[ 19 : 15 ];
+	let rs2       =        inst[ 24 : 20 ];
+//	let funct7    =        inst[ 31 : 25 ];
+	let aluSel    =        inst[30]; // select between Add/Sub, Srl/Sra
 
-        opLB, opLH, opLW, opLBU, opLHU:
-        begin
-            dInst.iType = Ld;
-            dInst.aluFunc = Add;
-            dInst.dst = validReg(rt);
-            dInst.src1 = validReg(rs);
-            dInst.src2 = Invalid;
-            dInst.imm = Valid(signExtend(imm));
-            dInst.brFunc = NT;
-        end
+	Data immI   = signExtend(inst[31:20]);
+	Data immS   = signExtend({ inst[31:25], inst[11:7] });
+	Data immB   = signExtend({ inst[31], inst[7], inst[30:25], inst[11:8], 1'b0});
+	Data immU   = signExtend({ inst[31:12], 12'b0 });
+	Data immJ   = signExtend({ inst[31], inst[19:12], inst[20], inst[30:21], 1'b0});
 
-        opSB, opSH, opSW:
-        begin
-            dInst.iType = St;
-            dInst.aluFunc = Add;
-            dInst.dst = Invalid;
-            dInst.src1 = validReg(rs);
-            dInst.src2 = validReg(rt);
-            dInst.imm = Valid(signExtend(imm));
-            dInst.brFunc = NT;
-        end
+	case (opcode)
+		opOpImm: begin
+			dInst.iType = Alu;
+			case (funct3)
+				fnADD:  dInst.aluFunc = Add;
+				fnSLT:  dInst.aluFunc = Slt;
+				fnSLTU: dInst.aluFunc = Sltu;
+				fnAND:  dInst.aluFunc = And;
+				fnOR:   dInst.aluFunc = Or;
+				fnXOR:  dInst.aluFunc = Xor;
+				fnSLL:  dInst.aluFunc = Sll;
+				fnSR:   dInst.aluFunc = aluSel == 0 ? Srl : Sra;
+				default: begin
+					dInst.aluFunc = ?;
+					dInst.iType = Unsupported;
+				end
+			endcase
+			dInst.brFunc = NT;
+			dInst.dst  = tagged Valid rd;
+			dInst.src1 = tagged Valid rs1;
+			dInst.src2 = tagged Invalid;
+			dInst.csr = tagged Invalid;
+			dInst.imm = tagged Valid immI;
+		end
 
-        opJ, opJAL:
-        begin
-            dInst.iType = J;
-            dInst.dst = opcode == opJ? Invalid: validReg(31);
-            dInst.src1 = Invalid;
-            dInst.src2 = Invalid;
-            dInst.imm = Valid(zeroExtend({target,2'b00}));
-            dInst.brFunc = AT;
-        end
+		opOp: begin
+			dInst.iType = Alu;
+			case (funct3)
+				fnADD:  dInst.aluFunc = aluSel == 0 ? Add : Sub;
+				fnSLT:  dInst.aluFunc = Slt;
+				fnSLTU: dInst.aluFunc = Sltu;
+				fnAND:  dInst.aluFunc = And;
+				fnOR:   dInst.aluFunc = Or;
+				fnXOR:  dInst.aluFunc = Xor;
+				fnSLL:  dInst.aluFunc = Sll;
+				fnSR:   dInst.aluFunc = aluSel == 0 ? Srl : Sra;
+				default: begin
+					dInst.aluFunc = ?;
+					dInst.iType = Unsupported;
+				end
+			endcase
+			dInst.brFunc = NT;
+			dInst.dst  = tagged Valid rd;
+			dInst.src1 = tagged Valid rs1;
+			dInst.src2 = tagged Valid rs2;
+			dInst.csr = tagged Invalid;
+			dInst.imm  = tagged Invalid;
+		end
 
-        opBEQ, opBNE, opBLEZ, opBGTZ, opRT:
-        begin
-            dInst.iType = Br;
-            dInst.brFunc = case(opcode)
-                opBEQ: Eq;
-                opBNE: Neq;
-                opBLEZ: Le;
-                opBGTZ: Gt;
-                opRT: (rt==rtBLTZ ? Lt : Ge);
-            endcase;
-            dInst.dst = Invalid;
-            dInst.src1 = validReg(rs);
-            dInst.src2 = (opcode==opBEQ || opcode==opBNE)? validReg(rt) : Invalid;
-            dInst.imm = Valid(signExtend(imm) << 2);
-        end
+		opLui: begin // rd = immU + r0
+			dInst.iType = Alu;
+			dInst.aluFunc = Add;
+			dInst.brFunc = NT;
+			dInst.dst = tagged Valid rd;
+			dInst.src1 = tagged Valid 0;
+			dInst.src2 = tagged Invalid;
+			dInst.csr = tagged Invalid;
+			dInst.imm = tagged Valid immU;
+		end
 
-        opRS: 
-        begin
-            case (rs)
-                rsMFC0:
-                begin
-                    dInst.iType = Mfc0;
-                    dInst.dst = validReg(rt);
-                    dInst.src1 = validCop(rd);
-                    dInst.src2 = Invalid;
-                    dInst.imm = Invalid;
-                    dInst.brFunc = NT;
-                end
-                rsMTC0:
-                begin
-                    dInst.iType = Mtc0;
-                    dInst.dst = validCop(rd);
-                    dInst.src1 = validReg(rt);
-                    dInst.src2 = Invalid;
-                    dInst.imm = Invalid;
-                    dInst.brFunc = NT;
-                end
-            endcase
-        end
+		opAuipc: begin
+			dInst.iType = Auipc;
+			dInst.aluFunc = ?;
+			dInst.brFunc = NT;
+			dInst.dst = tagged Valid rd;
+			dInst.src1 = tagged Invalid;
+			dInst.src2 = tagged Invalid;
+			dInst.csr = tagged Invalid;
+			dInst.imm = tagged Valid immU;
+		end
 
-        opFUNC:
-        case(funct)
-            fcJR, fcJALR:
-            begin
-                dInst.iType = Jr;
-                dInst.dst = funct == fcJR? Invalid: validReg(rd);
-                dInst.src1 = validReg(rs);
-                dInst.src2 = Invalid;
-                dInst.imm = Invalid;
-                dInst.brFunc = AT;
-            end
-            
-            fcSLL, fcSRL, fcSRA:
-            begin
-                dInst.iType = Alu;
-                dInst.aluFunc = case (funct)
-                    fcSLL: LShift;
-                    fcSRL: RShift;
-                    fcSRA: Sra;
-                endcase;
-                dInst.dst = validReg(rd);
-                dInst.src1 = validReg(rt);
-                dInst.src2 = Invalid;
-                dInst.imm = Valid(zeroExtend(shamt));
-                dInst.brFunc = NT;
-            end
+		opJal: begin
+			dInst.iType = J;
+			dInst.aluFunc = ?;
+			dInst.brFunc = AT;
+			dInst.dst = tagged Valid rd;
+			dInst.src1 = tagged Invalid;
+			dInst.src2 = tagged Invalid;
+			dInst.csr = tagged Invalid;
+			dInst.imm = tagged Valid immJ;
+		end
 
-            fcSLLV, fcSRLV, fcSRAV: 
-            begin
-                dInst.iType = Alu;
-                dInst.aluFunc = case (funct)
-                    fcSLLV: LShift;
-                    fcSRLV: RShift;
-                    fcSRAV: Sra;
-                endcase;
-                dInst.dst = validReg(rd);
-                dInst.src1 = validReg(rt);
-                dInst.src2 = validReg(rs);
-                dInst.imm = Invalid;
-                dInst.brFunc = NT;
-            end
+		opJalr: begin
+			dInst.iType = Jr;
+			dInst.aluFunc = ?;
+			dInst.brFunc = AT;
+			dInst.dst = tagged Valid rd;
+			dInst.src1 = tagged Valid rs1;
+			dInst.src2 = tagged Invalid;
+			dInst.csr = tagged Invalid;
+			dInst.imm = tagged Valid immI;
+		end
 
-            fcADDU, fcSUBU, fcAND, fcOR, fcXOR, fcNOR, fcSLT, fcSLTU:
-            begin
-                dInst.iType = Alu;
-                dInst.aluFunc = case (funct)
-                    fcADDU: Add;
-                    fcSUBU: Sub;
-                    fcAND : And;
-                    fcOR  : Or;
-                    fcXOR : Xor;
-                    fcNOR : Nor;
-                    fcSLT : Slt;
-                    fcSLTU: Sltu;
-                endcase;
-                dInst.dst = validReg(rd);
-                dInst.src1 = validReg(rs);
-                dInst.src2 = validReg(rt);
-                dInst.imm = Invalid;
-                dInst.brFunc = NT;
-            end
+		opBranch: begin
+			dInst.iType = Br;
+			dInst.aluFunc = ?;
+			case(funct3)
+				fnBEQ:  dInst.brFunc = Eq;
+				fnBNE:  dInst.brFunc = Neq;
+				fnBLT:  dInst.brFunc = Lt;
+				fnBLTU: dInst.brFunc = Ltu;
+				fnBGE:  dInst.brFunc = Ge;
+				fnBGEU: dInst.brFunc = Geu;
+				default: begin
+					dInst.brFunc = ?;
+					dInst.iType = Unsupported;
+				end
+			endcase
+			dInst.dst  = tagged Invalid;
+			dInst.src1 = tagged Valid rs1;
+			dInst.src2 = tagged Valid rs2;
+			dInst.csr = tagged Invalid;
+			dInst.imm  = tagged Valid immB;
+		end
 
-            default: 
-                begin
-                    dInst.iType = Unsupported;
-                    dInst.dst = Invalid;
-                    dInst.src1 = Invalid;
-                    dInst.src2 = Invalid;
-                    dInst.imm = Invalid;
-                    dInst.brFunc = NT;
-                end
-        endcase
+		opLoad: begin // only support LW
+			dInst.iType = funct3 == fnLW ? Ld : Unsupported;
+			dInst.aluFunc = Add; // calc effective addr
+			dInst.brFunc = NT;
+			dInst.dst  = tagged Valid rd;
+			dInst.src1 = tagged Valid rs1;
+			dInst.src2 = tagged Invalid;
+			dInst.csr = tagged Invalid;
+			dInst.imm = tagged Valid immI;
+		end
 
-        default: 
-        begin
-            dInst.iType = Unsupported;
-            dInst.dst = Invalid;
-            dInst.src1 = Invalid;
-            dInst.src2 = Invalid;
-            dInst.imm = Invalid;
-            dInst.brFunc = NT;
-        end
-    endcase
+		opStore: begin // only support SW
+			dInst.iType = funct3 == fnSW ? St : Unsupported;
+			dInst.aluFunc = Add; // calc effective addr
+			dInst.brFunc = NT;
+			dInst.dst = tagged Invalid;
+			dInst.src1 = tagged Valid rs1;
+			dInst.src2 = tagged Valid rs2;
+			dInst.csr = tagged Invalid;
+			dInst.imm = tagged Valid immS;
+		end
 
-    if(dInst.dst matches tagged Valid .dst &&& dst.regType == Normal &&& dst.idx == 0) begin
-        dInst.dst = tagged Invalid;
-    end
+		// LR SC FENCE not implemented
 
-    return dInst;
+		opSystem: begin
+			// CSRRC(I) CSRRWI CSRRSI SCALL not implemented
+			case (funct3)
+				fnCSRRW: begin
+					// only support rd = 0 (no read of csr)
+					dInst.iType = rd == 0 ? Csrw : Unsupported;
+				end
+				fnCSRRS: begin
+					// only support rs1 = 0 (no write to csr)
+					dInst.iType = rs1 == 0 ? Csrr : Unsupported;
+				end
+				default: dInst.iType =  Unsupported;
+			endcase
+			dInst.aluFunc = ?;
+			dInst.brFunc = NT;
+			dInst.dst = tagged Valid rd;
+			dInst.src1 = tagged Valid rs1;
+			dInst.src2 = tagged Invalid;
+			dInst.csr = tagged Valid truncate(immI);
+			dInst.imm  = tagged Invalid;
+		end
+
+		default: begin
+			dInst.iType = Unsupported;
+			dInst.aluFunc = ?;
+			dInst.brFunc = NT;
+			dInst.dst = tagged Invalid;
+			dInst.src1 = tagged Invalid;
+			dInst.src2 = tagged Invalid;
+			dInst.csr = tagged Invalid;
+			dInst.imm = tagged Invalid;
+		end
+	endcase
+
+	// no write to x0
+	if(dInst.dst matches tagged Valid .dst &&& dst == 0) begin
+		dInst.dst = tagged Invalid;
+	end
+
+	return dInst;
 endfunction
 
