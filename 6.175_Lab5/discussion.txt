@@ -1,0 +1,86 @@
+Discussion Question 1 (5 Points): What is the IPC for the two-stage pipelined processor for each benchmark tested by the run_bmarks.sh script?
+IPC = Instructions / Cycles
+two-stage pipelined processor
+
+median   : 4242   / 5086   = 0.834
+multiply : 20892  / 27007  = 0.774
+qsort    : 123495 / 145936 = 0.846
+towers   : 4167   / 4340   = 0.960
+vvadd    : 2407   / 2706   = 0.900
+
+
+Discussion Question 2 (5 Points): What is the formula to compute the next address predictor accuracy from the IPC? (Hint, how many cycles does it take to execute an instruction when the PC+4 prediction is correct? What about when it is incorrect?) Using this formula, what is the accuracy of the PC+4 next address predictor for each benchmark?
+Cycles = Instructions + (1 - Accuracy) * Instructions
+IPC = Instructions / Cycles
+So, Accuracy = 2 - 1 / IPC
+
+median   : Accuracy = 0.801
+multiply : Accuracy = 0.708
+qsort    : Accuracy = 0.818
+towers   : Accuracy = 0.958
+vvadd    : Accuracy = 0.889
+
+
+Discussion Question 3 (5 Points): What is the IPC for the two-stage pipelined processor with a BTB for each benchmark tested by the run_bmarks.sh script? How much has it improved over the previous version?
+two-stage pipelined processor
+median   : 4242   / 4877   = 0.870(+4.3%)
+multiply : 20892  / 21481  = 0.973(+25.7%)
+qsort    : 123495 / 139506 = 0.885(+4.6%)
+towers   : 4167   / 4267   = 0.977(+1.8%)
+vvadd    : 2407   / 2409   = 0.999(+11%)
+For different task, the improvement is different.Around 10% improve.
+
+
+Discussion Question 4 (5 Points): How does adding the BTB change the performance of the bpred_* microbenchmarks? (Hint: the number of cycles for bpred_j should go down.)
+without BTB
+-- benchmark test: bpred_bht --
+1210
+1010
+PASSED
+-- benchmark test: bpred_j --
+3506
+1806
+PASSED
+-- benchmark test: bpred_ras --
+413
+286
+PASSED
+
+with BTB
+-- benchmark test: bpred_bht --
+1311
+1010
+PASSED
+-- benchmark test: bpred_j --
+1825
+1806
+PASSED
+-- benchmark test: bpred_ras --
+361
+286
+PASSED
+
+bpred_bht : 1210 -> 1311 (+8.3%)
+bpred_j   : 3506 -> 1825 (-47.9%)
+bpred_ras : 413  -> 361  (-12.1%)
+
+Discussion Question 5 (Optional): How long did it take you to complete this lab?
+about 30H.
+
+Discussion Question 6 (5 Bonus Points): Look at the assembly source for the bpred_* benchmarks and explain why each benchmark improved, stayed the same, or got worse.
+BTB模块使用寄存器来存储各个缓冲器条目的目标地址、标签和有效性。在预测时，根据索引和标签查找相应的条目；在更新时，根据当前指令地址计算索引和标签，并将新的信息更新到对应的条目中。
+该方法适合循环的跳转,或者跳转到固定地址的指令。
+bpred_bht ( got worse)
+该benchmark大多是B类型指令,且跳转的地址并非固定,有时候跳有时候不跳,如果不跳转的时候预测跳转, 则可能比没有BTB, 每次只预测next_pc = pc + 4的方法预测效果更差
+
+bpred_j   (improved)
+该benchmark中指令大多是直接跳转到固定的地址,因此BTB可以记录跳转的目标地址,可成功预测跳转,效果非常好
+
+bpred_ras (improved)
+ret指令是返回,因为每个f中都有两个jal,因此ret指令会有两次,这部分可以通过BTB优化性能。
+但该benchmark没有明显的循环结构和频繁的分支指令，因此 BTB 的优化效果有限。
+
+
+Discussion Question 7 (5 Bonus Points): How would you improve the BTB to improve the results of bpred_bht?
+Increase the size of the BTB.
+direction prediction.

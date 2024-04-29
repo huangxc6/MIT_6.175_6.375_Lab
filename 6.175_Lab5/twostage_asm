@@ -1,0 +1,70 @@
+-- assembly test: simple --
+
+-- assembly test: add --
+
+-- assembly test: addi --
+
+-- assembly test: and --
+
+-- assembly test: andi --
+
+-- assembly test: auipc --
+
+-- assembly test: beq --
+
+-- assembly test: bge --
+
+-- assembly test: bgeu --
+
+-- assembly test: blt --
+
+-- assembly test: bltu --
+
+-- assembly test: bne --
+
+-- assembly test: j --
+
+-- assembly test: jal --
+
+-- assembly test: jalr --
+
+-- assembly test: lw --
+
+-- assembly test: lui --
+
+-- assembly test: or --
+
+-- assembly test: ori --
+
+-- assembly test: sw --
+
+-- assembly test: sll --
+
+-- assembly test: slli --
+
+-- assembly test: slt --
+
+-- assembly test: slti --
+
+-- assembly test: sra --
+
+-- assembly test: srai --
+
+-- assembly test: srl --
+
+-- assembly test: srli --
+
+-- assembly test: sub --
+
+-- assembly test: xor --
+
+-- assembly test: xori --
+
+-- assembly test: bpred_bht --
+
+-- assembly test: bpred_j --
+
+-- assembly test: bpred_ras --
+
+-- assembly test: cache --
+
