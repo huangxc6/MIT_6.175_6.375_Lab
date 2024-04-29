@@ -10,14 +10,20 @@ asm_tests=(
 
 vmh_dir=programs/build/benchmarks/vmh
 log_dir=logs
-wait_time=3
+wait_time=180
 
 # create bsim log dir
 mkdir -p ${log_dir}
 
+# kill previous bsim if any
+pkill bluetcl
+
+echo "Benchmarks Test" > log
+
 # run each test
 for test_name in ${asm_tests[@]}; do
-	echo "-- benchmark test: ${test_name} --"
+    echo "-- benchmark test: ${test_name} --"
+	echo "-- benchmark test: ${test_name} --" >> log
 	# copy vmh file
 	mem_file=${vmh_dir}/${test_name}.riscv.vmh
 	if [ ! -f $mem_file ]; then
@@ -27,6 +33,7 @@ for test_name in ${asm_tests[@]}; do
 	cp ${mem_file} bluesim/mem.vmh 
 
 	# run test
-	make run.bluesim > ${log_dir}/${test_name}.log & # run bsim, redirect outputs to log
+	 make run.bluesim 1> ${log_dir}/${test_name}.log & # run bsim, redirect outputs to log
+   # bluesim/bin/ubuntu.exe > ${log_dir}/${test_name}.log
 	sleep ${wait_time} # wait for bsim to setup
 done

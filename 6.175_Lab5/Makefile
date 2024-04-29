@@ -26,4 +26,6 @@ include $(CONNECTALDIR)/Makefile.connectal
 
 clean:
 	rm -rf bluesim
+	rm log
+	rm -rf logs
 
