@@ -1,0 +1,245 @@
+-- assembly test: simple --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+102
+103
+PASSED
+xsim_disconnect:75 pint=0x7dc464001c20 calling $finish
+
+-- assembly test: add --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+426
+427
+PASSED
+xsim_disconnect:75 pint=0x7d7720001c20 calling $finish
+
+-- assembly test: addi --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+203
+204
+PASSED
+xsim_disconnect:75 pint=0x739f78001c20 calling $finish
+
+-- assembly test: and --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+446
+447
+PASSED
+xsim_disconnect:75 pint=0x7e5b74001c20 calling $finish
+
+-- assembly test: andi --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+159
+160
+PASSED
+xsim_disconnect:75 pint=0x7db67c001c20 calling $finish
+
+-- assembly test: auipc --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+19
+20
+PASSED
+xsim_disconnect:75 pint=0x7c25a8001c20 calling $finish
+
+-- assembly test: beq --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+252
+253
+PASSED
+xsim_disconnect:75 pint=0x7464ec001c20 calling $finish
+
+-- assembly test: bge --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+270
+271
+PASSED
+xsim_disconnect:75 pint=0x755e40001c20 calling $finish
+
+-- assembly test: bgeu --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+295
+296
+PASSED
+xsim_disconnect:75 pint=0x74dcac001c20 calling $finish
+
+-- assembly test: blt --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+252
+253
+PASSED
+xsim_disconnect:75 pint=0x75faa8001c20 calling $finish
+
+-- assembly test: bltu --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+277
+278
+PASSED
+xsim_disconnect:75 pint=0x7174a4001c20 calling $finish
+
+-- assembly test: bne --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+252
+253
+PASSED
+xsim_disconnect:75 pint=0x700214001c20 calling $finish
+
+-- assembly test: j --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+12
+13
+PASSED
+xsim_disconnect:75 pint=0x79642c001c20 calling $finish
+
+-- assembly test: jal --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+17
+18
+PASSED
+xsim_disconnect:75 pint=0x7148c4001c20 calling $finish
+
+-- assembly test: jalr --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+76
+77
+PASSED
+xsim_disconnect:75 pint=0x7fc5a8001c20 calling $finish
+
+-- assembly test: lw --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+228
+229
+PASSED
+xsim_disconnect:75 pint=0x7b8bd8001c20 calling $finish
+
+-- assembly test: lui --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+26
+27
+PASSED
+xsim_disconnect:75 pint=0x72dd1c001c20 calling $finish
+
+-- assembly test: or --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+449
+450
+PASSED
+xsim_disconnect:75 pint=0x79ef80001c20 calling $finish
+
+-- assembly test: ori --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+166
+167
+PASSED
+xsim_disconnect:75 pint=0x72fa44001c20 calling $finish
+
+-- assembly test: sw --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+451
+452
+PASSED
+xsim_disconnect:75 pint=0x70b820001c20 calling $finish
+
+-- assembly test: sll --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+461
+462
+PASSED
+xsim_disconnect:75 pint=0x7f26b4001c20 calling $finish
+
+-- assembly test: slli --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+202
+203
+PASSED
+xsim_disconnect:75 pint=0x77df54001c20 calling $finish
+
+-- assembly test: slt --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+420
+421
+PASSED
+xsim_disconnect:75 pint=0x7089a0001c20 calling $finish
+
+-- assembly test: slti --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+198
+199
+PASSED
+xsim_disconnect:75 pint=0x766ec0001c20 calling $finish
+
+-- assembly test: sra --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+473
+474
+PASSED
+xsim_disconnect:75 pint=0x72a75c001c20 calling $finish
+
+-- assembly test: srai --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+217
+218
+PASSED
+xsim_disconnect:75 pint=0x77abac001c20 calling $finish
+
+-- assembly test: srl --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+481
+482
+PASSED
+xsim_disconnect:75 pint=0x7aa40c001c20 calling $finish
+
+-- assembly test: srli --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+214
+215
+PASSED
+xsim_disconnect:75 pint=0x79c0f8001c20 calling $finish
+
+-- assembly test: sub --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+418
+419
+PASSED
+xsim_disconnect:75 pint=0x7141d0001c20 calling $finish
+
+-- assembly test: xor --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+448
+449
+PASSED
+xsim_disconnect:75 pint=0x78cc04001c20 calling $finish
+
+-- assembly test: xori --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+168
+169
+PASSED
+xsim_disconnect:75 pint=0x7065dc001c20 calling $finish
+
+-- assembly test: bpred_bht --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+1009
+1010
+PASSED
+xsim_disconnect:75 pint=0x7a1f00001c20 calling $finish
+
+-- assembly test: bpred_j --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+1805
+1806
+PASSED
+xsim_disconnect:75 pint=0x7e5644001c20 calling $finish
+
+-- assembly test: bpred_ras --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+285
+286
+PASSED
+xsim_disconnect:75 pint=0x7e0880001c20 calling $finish
+
+-- assembly test: cache --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+43
+44
+PASSED
+xsim_disconnect:75 pint=0x71ebe8001c20 calling $finish
+

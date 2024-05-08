@@ -24,10 +24,11 @@ asm_tests=(
 
 vmh_dir=programs/build/assembly/vmh
 log_dir=logs
-wait_time=20
+wait_time=1
 
 # kill previous bsim if any
 pkill bluetcl
+echo "Assembly Test" > log
 
 # create bsim log dir
 mkdir -p ${log_dir}
@@ -46,11 +47,12 @@ for test_name in ${asm_tests[@]}; do
 		echo "ERROR: $mem_file does not exit, you need to first compile"
 		exit
 	fi
-	cp ${mem_file} bluesim/mem.vmh 
+	# cp ${mem_file} bluesim/mem.vmh 
+    cp ${mem_file} ./mem.vmh
 
 	# run test
-	make run.bluesim 1> ${log_dir}/${test_name}.log & # run bsim, redirect outputs to log
-    # bluesim/bin/ubuntu.exe > ${log_dir}/${test_name}.log
+	# make run.bluesim 1> ${log_dir}/${test_name}.log & # run bsim, redirect outputs to log
+    bluesim/bin/ubuntu.exe > ${log_dir}/${test_name}.log
 
 	sleep ${wait_time}
 	echo ""

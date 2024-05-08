@@ -1,0 +1,40 @@
+-- benchmark test: median --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+Benchmark median
+Cycles = 8484
+Insts  = 4243
+Return 0
+PASSED
+xsim_disconnect:75 pint=0x797558001c20 calling $finish
+-- benchmark test: multiply --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+Benchmark multiply
+Cycles = 41784
+Insts  = 20893
+Return 0
+PASSED
+xsim_disconnect:75 pint=0x78619c001c20 calling $finish
+-- benchmark test: qsort --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+Benchmark qsort
+Cycles = 246990
+Insts  = 123496
+Return 0
+PASSED
+xsim_disconnect:75 pint=0x7f097c001c20 calling $finish
+-- benchmark test: towers --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+Benchmark tower
+Cycles = 8334
+Insts  = 4168
+Return 0
+PASSED
+xsim_disconnect:75 pint=0x778b50001c20 calling $finish
+-- benchmark test: vvadd --
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab5/bluesim/bin/ubuntu.exe
+Benchmark vvadd
+Cycles = 4814
+Insts  = 2408
+Return 0
+PASSED
+xsim_disconnect:75 pint=0x79fa8c001c20 calling $finish
