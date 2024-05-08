@@ -1,0 +1,252 @@
+Running test: simple
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+204
+103
+PASSED
+xsim_disconnect:75 pint=0x7f77a0001c20 calling $finish
+
+Running test: add
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+931
+427
+PASSED
+xsim_disconnect:75 pint=0x7fddd8001c20 calling $finish
+
+Running test: addi
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+450
+204
+PASSED
+xsim_disconnect:75 pint=0x7f2cec001c20 calling $finish
+
+Running test: and
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+1022
+447
+PASSED
+xsim_disconnect:75 pint=0x7f9f20001c20 calling $finish
+
+Running test: andi
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+352
+160
+PASSED
+xsim_disconnect:75 pint=0x7fcb2c001c20 calling $finish
+
+Running test: auipc
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+44
+20
+PASSED
+xsim_disconnect:75 pint=0x7f58c8001c20 calling $finish
+
+Running test: beq
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+547
+253
+PASSED
+xsim_disconnect:75 pint=0x7ff978001c20 calling $finish
+
+Running test: bge
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+587
+271
+PASSED
+xsim_disconnect:75 pint=0x7f062c001c20 calling $finish
+
+Running test: bgeu
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+662
+296
+PASSED
+xsim_disconnect:75 pint=0x7f8874001c20 calling $finish
+
+Running test: blt
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+548
+253
+PASSED
+xsim_disconnect:75 pint=0x7f6fac001c20 calling $finish
+
+Running test: bltu
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+610
+278
+PASSED
+xsim_disconnect:75 pint=0x7fb920001c20 calling $finish
+
+Running test: bne
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+548
+253
+PASSED
+xsim_disconnect:75 pint=0x7f64dc001c20 calling $finish
+
+Running test: j
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+24
+13
+PASSED
+xsim_disconnect:75 pint=0x7ff230001c20 calling $finish
+
+Running test: jal
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+35
+18
+PASSED
+xsim_disconnect:75 pint=0x7f7b98001c20 calling $finish
+
+Running test: jalr
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+168
+77
+PASSED
+xsim_disconnect:75 pint=0x7fabdc001c20 calling $finish
+
+Running test: lw
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+516
+229
+PASSED
+xsim_disconnect:75 pint=0x7f6abc001c20 calling $finish
+
+Running test: lui
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+55
+27
+PASSED
+xsim_disconnect:75 pint=0x7efe84001c20 calling $finish
+
+Running test: or
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+1031
+450
+PASSED
+xsim_disconnect:75 pint=0x7f8da4001c20 calling $finish
+
+Running test: ori
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+373
+167
+PASSED
+xsim_disconnect:75 pint=0x7f8e20001c20 calling $finish
+
+Running test: sw
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+1030
+452
+PASSED
+xsim_disconnect:75 pint=0x7f7638001c20 calling $finish
+
+Running test: sll
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+1014
+462
+PASSED
+xsim_disconnect:75 pint=0x7f5e84001c20 calling $finish
+
+Running test: slli
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+446
+203
+PASSED
+xsim_disconnect:75 pint=0x7f638c001c20 calling $finish
+
+Running test: slt
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+914
+421
+PASSED
+xsim_disconnect:75 pint=0x7fd348001c20 calling $finish
+
+Running test: slti
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+435
+199
+PASSED
+xsim_disconnect:75 pint=0x7f224c001c20 calling $finish
+
+Running test: sra
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+1050
+474
+PASSED
+xsim_disconnect:75 pint=0x7f9f14001c20 calling $finish
+
+Running test: srai
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+483
+218
+PASSED
+xsim_disconnect:75 pint=0x7f62a4001c20 calling $finish
+
+Running test: srl
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+1074
+482
+PASSED
+xsim_disconnect:75 pint=0x7fcf74001c20 calling $finish
+
+Running test: srli
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+481
+215
+PASSED
+xsim_disconnect:75 pint=0x7ffaf8001c20 calling $finish
+
+Running test: sub
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+913
+419
+PASSED
+xsim_disconnect:75 pint=0x7f6fe8001c20 calling $finish
+
+Running test: xor
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+1028
+449
+PASSED
+xsim_disconnect:75 pint=0x7f9158001c20 calling $finish
+
+Running test: xori
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+379
+169
+PASSED
+xsim_disconnect:75 pint=0x7ff238001c20 calling $finish
+
+Running test: bpred_bht
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+2119
+1010
+PASSED
+xsim_disconnect:75 pint=0x7fa734001c20 calling $finish
+
+Running test: bpred_j
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+3610
+1806
+PASSED
+xsim_disconnect:75 pint=0x7fd140001c20 calling $finish
+
+Running test: bpred_ras
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+632
+286
+PASSED
+xsim_disconnect:75 pint=0x7f712c001c20 calling $finish
+
+Running test: bpred_j_noloop
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+72
+37
+PASSED
+xsim_disconnect:75 pint=0x7fe2f4001c20 calling $finish
+
+Running test: cache
+buffer /root/6.175_Lab6/bluesim/bin/ubuntu.exe
+92
+44
+PASSED
+xsim_disconnect:75 pint=0x7f1324001c20 calling $finish
+

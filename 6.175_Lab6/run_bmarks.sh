@@ -10,7 +10,7 @@ asm_tests=(
 
 vmh_dir=programs/build/benchmarks/vmh
 log_dir=logs
-wait_time=0
+wait_time=10
 
 # create bsim log dir
 mkdir -p ${log_dir}
@@ -29,7 +29,7 @@ for test_name in ${asm_tests[@]}; do
 		echo "ERROR: $mem_file does not exit, you need to first compile"
 		exit
 	fi
-	cp ${mem_file} mem.vmh 
+	cp ${mem_file} ./mem.vmh 
 
 	# run test
 	# make run.bluesim > ${log_dir}/${test_name}.log # run bsim, redirect outputs to log

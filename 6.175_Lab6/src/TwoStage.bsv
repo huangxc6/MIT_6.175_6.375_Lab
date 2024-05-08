@@ -145,6 +145,7 @@ module mkProc(Proc);
 			//this btb must be letting them redirect tho .. 
 			//when the instruction that caused the misdirection is a store, the memory address for the store is set as next pc
 			//unsuported instruction ensues...
+            /*
 			if(eInst.mispredict) begin //no btb update?
 				$display("Execute finds misprediction: PC = %x", f2e.pc);
 				exeRedirect[0] <= Valid (ExeRedirect {
@@ -152,6 +153,16 @@ module mkProc(Proc);
 					nextPc: eInst.addr // Hint for discussion 1: check this line
 				});
 			end
+            */
+            // fix it
+            if(eInst.mispredict) begin
+		        $display("Execute finds misprediction: PC = %x", f2e.pc);
+		        exeRedirect[0] <= Valid (ExeRedirect {
+			        pc: f2e.pc,
+			        // nextPc: (eInst.iType == Br || eInst.iType == J || eInst.iType == Jr) ? eInst.addr : f2e.pc + 4
+                    nextPc: ((eInst.iType == St || eInst.iType == Ld) ? f2e.pc + 4 : eInst.addr )
+		        });
+	        end
 			else begin
 				$display("Execute: PC = %x", f2e.pc);
 			end
