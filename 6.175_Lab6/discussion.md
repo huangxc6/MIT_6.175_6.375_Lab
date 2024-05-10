@@ -219,3 +219,62 @@ qsort		123496	419245	0.295
 towers		4168	6950	0.600
 vvadd		2408	3637	0.662
 
+## Discussion Question 6 (10 Points): Planning!
+
+``` 
+One of the hardest things about this lab is properly training and integrating the BHT into the pipeline. There are many mistakes that can be made while still seeing decent results. By having a good plan based on the fundamentals of direction prediction, you will avoid many of those mistakes.
+
+For this discussion question, state your plan for integrating the BHT into the pipeline. The following questions should help guide you:
+
+    Where will the BHT be positioned in the pipeline?
+    What pipeline stage performs lookups into the BHT?
+    In which pipeline stage will the BHT prediction be used?
+    Will the BHT prediction need to be passed between pipeline stages? 
+
+    How to redirect PC using BHT prediction?
+    Do you need to add a new epoch?
+    How to handle the redirect messages?
+    Do you need to change anything to the current instruction and its data structures if redirecting? 
+
+    How will you train the BHT?
+    Which stage produces training data for the BHT?
+    Which stage will use the interface method to train the BHT?
+    How to send training data?
+    For which instructions will you train the BHT? 
+
+    How will you know if your BHT works? 
+```
+BHT 预测在 decode stage, BHT 更新在 exec stage。
+Decode Stage.
+Fetch Stage.
+Yes, 执行阶段得到的nextPc总是正确的，BHT prediction need to be passed until exec stage, the prediction will be compared with the correct pc.
+
+Adding a dEpoch Reg. using Ehr.Decode Stage通过_write1 更新pcReg.
+优先级最高的重定向信息来自执行阶段，其次来自译码阶段。
+译码阶段 `f2d.dEpoch != dEpoch || f2d.eEpoch != eEpoch` 时会stall，丢弃错误的指令。
+
+根据执行阶段的正确nextPc与预测的pc之间的关系训练BHT。
+执行阶段会用到 `bht.update(r2e.pc, eInst.brTaken)`
+
+All assemble and benchmark tests pass and most tests' IPC increase.
+
+## Discussion Question 7 (5 Points): 
+### How much improvement do you see in the bpred_bht.riscv.vmh test over the processor in SixStage.bsv?
+
+5979 -> 3174 (-46.9%)
+
+## Discussion Question 9 (5 Points): 
+### What IPC do you get for each benchmark? How much improvement is this over the original six-stage pipeline?
+
+
+Benchmark	Insts	Cycles(BHT)     IPC(BHT)    Cycles(BTB)	    IPC(BHT)	Improvement
+-------------------------------------------------------------------------------------------
+median		4243	    10989  	    0.386        15403           0.275          +40.36%
+multiply	20893	    36025       0.580        38538           0.542          +7.01%
+qsort		123496	    285007      0.433        41924           0.295          +46.8%
+towers		4168	    6651	    0.627        6950	         0.600          +4.5%
+vvadd		2408	    3633        0.663        3637	         0.662          +0.15%
+
+
+
+

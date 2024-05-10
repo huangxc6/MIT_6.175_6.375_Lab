@@ -55,3 +55,5 @@ done
 
 rm ./SWSOCK0
 rm ./mem.vmh
+
+# ./run_asm.sh 2>&1 | tee twostage_asm
