@@ -1,6 +1,6 @@
-// SixStage.bsv
+// SixStageBonus.bsv
 //
-// This is a six stage pipelined implementation with branch history table(BHT) of the RISC-V processor.
+// This is a six stage pipelined implementation with branch history table(BHT) and return address stack (RAS) of the RISC-V processor.
 
 import Types::*;
 import ProcTypes::*;
@@ -19,6 +19,7 @@ import Btb::*;
 import Scoreboard::*;
 import FPGAMemory::*;
 import Bht::*;
+import Ras::*;
 
 typedef struct {
     Addr pc;
@@ -56,6 +57,21 @@ typedef struct {
     Maybe#(ExecInst) eInst;
 } Mem2WriteBack deriving (Bits, Eq);
 
+//  a JAL or JALR instruction with rd=x1 is commonly used 
+// as the jump to initiate a function call. 
+function Bool isFuncCall(RIndx rd);
+    let x1 = 5'b00001;
+    return (rd == x1);
+endfunction
+
+//  a JALR instruction with rd=x0 and rs1=x1 is commonly used 
+// as the return instruction from a function call.
+function Bool isFuncReturn(RIndx rd, RIndx rs1);
+    let x0 = 5'b00000;
+    let x1 = 5'b00001;
+    return (rd == x0 && rs1 == x1);
+endfunction
+
 typedef struct {
     Addr pc;
     Addr nextPc;
@@ -71,6 +87,7 @@ module mkProc(Proc);
     CsrFile         csrf  <- mkCsrFile;
     Btb#(6)         btb   <- mkBtb;  // 6-bit branch predictor
     Bht#(8)         bht   <- mkBht;  // 8-bit branch history table
+    Ras#(8)         ras   <- mkRas;  // 8-entry return address stack   
 
     Reg#(Bool)      eEpoch <- mkReg(False);
     Reg#(Bool)      rEpoch <- mkReg(False);
@@ -158,6 +175,18 @@ module mkProc(Proc);
         if (!sb.search1(dInst.src1) && !sb.search2(dInst.src2)) begin
             // for better prediction
             let predPc = (dInst.iType == Jr) ? {truncateLSB(rVal1 + fromMaybe(?, dInst.imm)), 1'b0} : d2r.predPc;
+            // for function call
+            if ((dInst.iType == J || dInst.iType == Jr) && isFuncCall(fromMaybe(?, dInst.dst))) begin
+                // push the return address to the RAS
+                ras.push(d2r.pc + 4);
+                $display("Function call at pc %x, pushed return address %x to RAS", d2r.pc, d2r.pc + 4);
+            end
+            if (dInst.iType == Jr && isFuncReturn(fromMaybe(?, dInst.dst), fromMaybe(?, dInst.src1))) begin
+                // pop the return address from the RAS
+                predPc <- ras.pop;
+                $display("Function return at pc %x, popped return address %x from RAS", d2r.pc, predPc);
+            end
+
             if (d2r.predPc != predPc) begin
                 rEpoch <= !rEpoch;
                 pcReg[2] <= predPc;

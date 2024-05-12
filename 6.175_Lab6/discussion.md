@@ -1,3 +1,5 @@
+
+
 ## Discussion Question 1 (10 Points): Debugging practice!
 
 ``` 
@@ -27,7 +29,7 @@ Fetch: PC = 00001000, inst = 00ff00ff, expanded = unsupport 0xff00ff
 
 ERROR: Executing unsupported instruction at pc: 00001000. Exiting
 
-1. sw:
+2. sw:
 
 Cycle          9 ----------------------------------------------------
 Fetch: PC = 00000210, inst = 0020a023, expanded = sw [r 1 0x0] = r 2
@@ -55,7 +57,7 @@ Fetch: PC = fffdc5ea, inst = 00000000, expanded = unsupport 0x0
 
 ERROR: Executing unsupported instruction at pc: fffdc5ea. Exiting
 
-1. cache:
+3. cache:
 
 Cycle          6 ----------------------------------------------------
 Fetch: PC = 0000020c, inst = 0030a023, expanded = sw [r 1 0x0] = r 3
@@ -107,6 +109,11 @@ if(eInst.mispredict) begin
 	end
 ```
 在指令为lw和sw时，nextPc修正为f2e.pc + 4，其它情况可以保持nextPc为eInst.addr。
+
+## Exercise 1 (20 Points): 
+
+> Starting with the two-stage implementation in TwoStage.bsv, replace each memory with FPGAMemory and extend the pipeline into a six-stage pipeline in SixStage.bsv.In simulation, benchmark qsort may take longer time (21 seconds on TA's desktop, and it may take even longer on the vlsifarm machines).
+
 
 ## Discussion Question 2 (5 Points): 
 ### What evidence do you have that all pipeline stages can fire in the same cycle?
@@ -219,6 +226,10 @@ qsort		123496	419245	0.295
 towers		4168	6950	0.600
 vvadd		2408	3637	0.662
 
+## Exercise 2 (20 Points): 
+> Implement a branch history table in Bht.bsv that uses a parameterizable number of bits as an index into the table.
+
+
 ## Discussion Question 6 (10 Points): Planning!
 
 ``` 
@@ -258,10 +269,30 @@ Adding a dEpoch Reg. using Ehr.Decode Stage通过_write1 更新pcReg.
 
 All assemble and benchmark tests pass and most tests' IPC increase.
 
+## Exercise 3 (20 Points): 
+> Integrate a 256-entry (8-bit index) BHT into the six-stage pipeline from SixStage.bsv, and put the results in SixStageBHT.bsv.
+
 ## Discussion Question 7 (5 Points): 
 ### How much improvement do you see in the bpred_bht.riscv.vmh test over the processor in SixStage.bsv?
 
 5979 -> 3174 (-46.9%)
+
+## Exercise 4 (10 Points):
+
+> Move address calculation for JAL up to the decode stage and use the edirect logic used by the BHT to redirect for these instructions too.
+
+
+## Discussion Question 8 (5 Points):
+
+```
+How much improvement do you see in the bpred_j.riscv.vmh and bpred_j_noloop.riscv.vmh tests over the processor in SixStage.bsv?
+```
+bpred_j.riscv.vmh
+2224 -> 2170 (2.43%)
+
+bpred_j_noloop.riscv.vmh
+235 -> 141 (-40%)
+j_noloop has a big reduction due to BTB will mispredict without BHT.
 
 ## Discussion Question 9 (5 Points): 
 ### What IPC do you get for each benchmark? How much improvement is this over the original six-stage pipeline?
@@ -275,6 +306,28 @@ qsort		123496	    285007      0.433        41924           0.295          +46.8%
 towers		4168	    6651	    0.627        6950	         0.600          +4.5%
 vvadd		2408	    3633        0.663        3637	         0.662          +0.15%
 
+## Exercise 5 (10 Bonus Points)
+
+>  JALR instructions have known target addresses in the register fetch stage. 
+Add a redirection path for JALR instructions in the register fetch stage and put the results in SixStageBonus.bsv. 
+The bpred_ras.riscv.vmh test should give slightly better results with this improvement.
+
+> Most JALR instructions found in programs are used as returns from function calls.
+This means the target address for such a return was written into the return address register x1 (also called ra) 
+by a previous JAL or JALR instruction that initiates the function call.
 
 
+-- assembly test: bpred_ras -- 
+Insts   :283
+Cycles(BTB  )   : 1562
+Cycles(BHT  )   : 1277
+Cycles(BONUS)   : 840
 
+## Exercise 6 (10 Bonus Points):
+
+
+> Implement a return address stack and integrate it into the Decode stage of your processor (SixStageBonus.bsv).An 8 element stack should be enough. If the stack fills up, you could simply discard the oldest data. The bpred_ras.riscv.vmh test should give an even better result with this improvement. If you implemented the RAS in a separate BSV file, make sure to add it to the git repository for grading.
+
+## Discussion Question 10 (Optional): 
+> How long did it take you to complete this lab?
+about 20H.
