@@ -218,13 +218,13 @@ RegFile: PC = 00000204, rVal1 = 00000000, rVal2 = 00000000, csrVal = 00000000
 ## Discussion Question 5 (5 Points): 
 ### What IPC do you get for each benchmark?
 
-Benchmark	Insts	Cycles	IPC
--------------------------------------
-median		4243	15403	0.275
-multiply	20893	38538	0.542
-qsort		123496	419245	0.295
-towers		4168	6950	0.600
-vvadd		2408	3637	0.662
+| Benchmark |	Insts |	Cycles | IPC |
+| - | - | - | - |
+median	|	4243	| 15403	    |0.275
+multiply|	20893	| 38538	    |0.542
+qsort	|	123496	| 419245	|0.295
+towers	|	4168	| 6950	    |0.600
+vvadd	|	2408	| 3637	    |0.662
 
 ## Exercise 2 (20 Points): 
 > Implement a branch history table in Bht.bsv that uses a parameterizable number of bits as an index into the table.
@@ -298,13 +298,13 @@ j_noloop has a big reduction due to BTB will mispredict without BHT.
 ### What IPC do you get for each benchmark? How much improvement is this over the original six-stage pipeline?
 
 
-Benchmark	Insts	Cycles(BHT)     IPC(BHT)    Cycles(BTB)	    IPC(BHT)	Improvement
--------------------------------------------------------------------------------------------
-median		4243	    10989  	    0.386        15403           0.275          +40.36%
-multiply	20893	    36025       0.580        38538           0.542          +7.01%
-qsort		123496	    285007      0.433        41924           0.295          +46.8%
-towers		4168	    6651	    0.627        6950	         0.600          +4.5%
-vvadd		2408	    3633        0.663        3637	         0.662          +0.15%
+|Benchmark|	Insts	|Cycles(BHT)|     IPC(BHT)|    Cycles(BTB)|	    IPC(BHT)|	Improvement |
+| - | - |- | - | - | - | - |
+median	|	4243	|    10989  |	    0.386 |       15403   |        0.275|          +40.36%
+multiply|	20893	|    36025  |     0.580   |     38538     |      0.542  |        +7.01%
+qsort	|	123496	|    285007 |     0.433   |     41924     |      0.295  |        +46.8%
+towers	|	4168	|    6651	|    0.627    |    6950	      |   0.600     |     +4.5%
+vvadd	|	2408	|    3633   |     0.663   |     3637	  |       0.662 |         +0.15%
 
 ## Exercise 5 (10 Bonus Points)
 
