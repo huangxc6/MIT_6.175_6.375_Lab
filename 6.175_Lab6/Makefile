@@ -29,7 +29,7 @@ clean:
 
 build:
 	mkdir buildDir
-	bsc -u -sim -bdir buildDir -info-dir buildDir -simdir buildDir -vdir buildDir -p +:src/includes/ -aggressive-conditions -keep-fires src/SixStageBHT.bsv
+	bsc -u -sim -bdir buildDir -info-dir buildDir -simdir buildDir -vdir buildDir -p +:src/includes/ -aggressive-conditions -keep-fires src/SixStageBonus.bsv
 	bsc -u -sim -bdir buildDir -info-dir buildDir -simdir buildDir -vdir buildDir -p +:src/includes:src/ref:src -D CORE_NUM=2 -D VPROC=SIXSTAGE -aggressive-conditions -keep-fires src/ConnectalWrapper.bsv
 
 # docker exec -it --user root 69f1023564a4 /bin/bash
