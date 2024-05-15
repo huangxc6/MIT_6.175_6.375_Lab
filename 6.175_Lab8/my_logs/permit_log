@@ -1,0 +1,5 @@
+buffer /home/huangxc/MIT_course/MIT_6.175_6.375_Lab/6.175_Lab8/bluesim/bin/ubuntu.exe
+[Error] No permission to execute instruction at pc: 000006ec.Exiting
+Benchmark permission
+^Z
+[1]+  Stopped                 ./run_permit.sh
