@@ -551,3 +551,13 @@ On handler completion, it executes a special indirect jump instruction ERET (ret
 > The low 12 bits of this register store a 4-element stack of privilege/user mode (PRV) and interrupt enable (IE) bits. Each stack element is 3 bits wide. For example, `mstatus[2:0]` corresponds to the top of the stack, and contains the current PRV and IE bits. Specifically, `mstatus[0]` is the IE bit, and interrupts are enabled if IE = 1. `mstatus[2:1]` contains the PRV bits. If the processor is in user mode, it should be set to `2'b00`. If the processor is in machine (privileged) mode, it should be set to `2'b11`. Other stack elements (i.e. `mstatus[5:3], ..., mstatus[11:9]`) have the same construction.
 > When an exception is taken, the stack will be "pushed" by left-shifting 3 bits. As a result, the new PRV and IE bits (e.g. machine mode and interrupt disabled) are now stored into `mstatus[2:0]`.
 > Conversely, when we return from an exception using the `eret` instruction, the stack is "popped" by right-shifting 3 bits. Bits `mstatus[2:0]` will contain their original values, and `mstatus[11:9]` is assigned to (user mode, interrupt enabled)
+
+
+
+reference:
+
+> https://github.com/WangXuan95/BSV_Tutorial_cn
+>
+> https://github.com/androny1012/MIT_LAB_6.175-6.375
+>
+> "Computer Architecture: A Constructive Approach"  Arvind  
