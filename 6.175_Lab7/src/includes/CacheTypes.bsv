@@ -7,7 +7,7 @@ typedef 16 CacheLineWords; // to match DDR3 width
 // 64 * 8 个byte
 typedef TMul#(CacheLineWords, 4) CacheLineBytes;
 // 总共 8 line
-typedef 32 CacheRows; // small size to improve compile times
+typedef 8 CacheRows; // small size to improve compile times
 typedef 4 CacheGroups; 
 typedef TDiv#(CacheRows,CacheGroups) CacheGroupRows; 
 
