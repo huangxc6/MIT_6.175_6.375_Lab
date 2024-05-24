@@ -290,6 +290,83 @@ Multi-Cycle procesoor
 Two-Stage Pipeline procesoor
 ```
 
+
+
+```verilog
+IType {
+	Unsupported,
+	Alu,
+	Ld,
+	St,
+	J,
+	Jr,
+	Br,
+	Csrr,
+	Csrw,
+	Auipc
+}
+
+BrFunc{
+    Eq,
+    Neq,
+    Lt,
+    Ltu,
+    Ge,
+    Geu,
+    AT,
+    NT
+}
+
+AluFunc{
+    Add,
+    Sub,
+    And,
+    Or,
+    Xor,
+    Slt,
+    Sltu,
+    Sll,
+    Sra,
+    Srl
+}
+
+Redirect{
+    Addr pc;
+    Addr nextPc;
+    IType brType;
+    Bool taken;
+    Bool mispredict;
+}
+
+DecodedInst{
+    IType itype;
+    AluFunc aluFunc;
+    BrFunc brFunc;
+    Maybe#(RIndx) dst;
+    Maybe#(RIndx) src1;
+    Maybe#(RIndx) src2;
+    Maybe#(CsrIndx) csr;
+    Maybe#(Data)  imm ;
+}
+
+ExecInst{
+    IType           iType;
+    Maybe#(RIndx)   dst;
+    Maybe#(CsrIndx) csr;
+    Data            data;
+    Addr			addr;
+    Bool			mispredict;
+    Bool			brTaken;
+}
+
+```
+
+
+
+
+
+
+
 pipline processor
 
 _hazards_
