@@ -38,7 +38,7 @@ Checkpoint 12
 PASSED
 ```
 
-## Exercise3
+## Exercise 3
 
 ```
 ./simTb
@@ -112,4 +112,29 @@ Correct : got response         77
   Looking for response for load
 Correct : got response         99
   Found correct data, test passed
+```
+
+## Exercise 4 : PPP
+```
+huangxc@Ubuntu:~/MIT_course/MIT_6.175_6.375_Lab/6.175_Project/unit_test/ppp-test$ ./simTb
+Checkpoint 0
+Dequeuing tagged Resp CacheMemResp { child: 'h0, addr: 'h00000000, state: S, data: tagged Valid <V 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000  > }
+Checkpoint 1
+Dequeuing tagged Resp CacheMemResp { child: 'h0, addr: 'h00000000, state: M, data: tagged Invalid  }
+Checkpoint 2
+Checkpoint 3
+Checkpoint 4
+Dequeuing tagged Resp CacheMemResp { child: 'h1, addr: 'h00000000, state: M, data: tagged Valid <V 'h00000011 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000  > }
+Checkpoint 5
+Dequeuing tagged Req CacheMemReq { child: 'h1, addr: 'h00000000, state: S }
+Checkpoint 6
+Dequeuing tagged Resp CacheMemResp { child: 'h0, addr: 'h00000000, state: S, data: tagged Valid <V 'h00000016 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000 'h00000000  > }
+Checkpoint 7
+Dequeuing tagged Req CacheMemReq { child: 'h1, addr: 'h00000000, state: I }
+Checkpoint 8
+Dequeuing tagged Resp CacheMemResp { child: 'h0, addr: 'h00000000, state: M, data: tagged Invalid  }
+Checkpoint 9
+Checkpoint 10
+Checkpoint 11
+PASSED
 ```
